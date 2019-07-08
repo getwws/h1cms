@@ -19,7 +19,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
 </div>
 <form action="" method="get">
 
-            <div class="card ">
+            <div class="card table-responsive">
                 <div class="card-body">
                     <!-- Search -->
                     <?php

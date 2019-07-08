@@ -6,7 +6,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
         <div class="pull-right">
             <button type="button" class="btn btn-success "
                     onclick="redirect('<?php echo url_for('/user/index.php?action=add'); ?>');">
-                <i class="fa fa-plus mr-5"></i>添加用户
+                <i class="fa fa-plus"></i> 添加用户
             </button>
         </div>
         <h1><?php echo $this->title;?></h1>
@@ -20,43 +20,45 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
 
 <form action="" method="get">
 
-    <div class="ibox">
-        <div class="ibox-body">
+    <div class="card  table-responsive">
+        <div class="card-body">
             <!-- Search -->
+            <?php
+            $search_list = [
+                'uid' => '<i class="fa fa-fw fa-star mr-5"></i>用户ID',
+                'username' => '<i class="fa fa-fw fa-user mr-5"></i>用户名',
+                'email' => '<i class="fa fa-fw fa-envelope-o mr-5"></i>Email'
+            ];
+            $search_type_default = input_get('st', 'title');
+            if (!key_exists($search_type_default, $search_list)) {
+                $search_type_default = 'username';
+            }
+            ?>
             <div class="form-group">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="搜索..." name="s"
-                           id="s">
-                    <input name="st" value="username" id="st" type="hidden"/>
-                    <div class="input-group-btn" id="search_type_input">
-                        <button type="button" data-toggle="dropdown" class="btn btn-sm btn-primary dropdown-toggle"
-                                aria-expanded="false"><i class="fa fa-fw fa-user"></i>用户名 <span class="caret"></span>
-                        </button>
-
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)" data-type="uid">
-                                    <i class="fa fa-fw fa-star mr-5"></i>用户ID
-                                </a></li>
-                            <li><a href="javascript:void(0)" data-type="username">
-                                    <i class="fa fa-fw fa-user mr-5"></i>用户名
-                                </a></li>
-                            <li><a href="javascript:void(0)" data-type="email">
-                                    <i class="fa fa-fw fa-envelope-o mr-5"></i>Email
-                                </a></li>
-                        </ul>
+                <div class="input-group input-group-sm" id="search_type_input">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $search_list[$search_type_default]; ?></button>
+                        <div class="dropdown-menu">
+                            <?php foreach ($search_list as $name => $html) { ?>
+                                <li><a class="dropdown-item" href="javascript:void(0)"
+                                       data-type="<?php echo $name; ?>"><?php echo $html; ?></a></li>
+                            <?php } ?>
+                        </div>
                     </div>
 
+                    <input type="text" class="form-control" placeholder="搜索..." name="s" id="s"
+                           value="<?php echo input_get('s'); ?>">
+                    <input name="st" value="<?php echo $search_type_default; ?>" id="st" type="hidden"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">搜索</button>
+                    </div>
 
                 </div>
             </div>
 
-            <!-- END Search -->
-        </div>
-        <div class="ibox-body">
-            <!-- Orders Table -->
-            <div class="table-responsive">
 
-                <table class="table table-striped table-borderless table-hover table-vcenter">
+
+            <table class="table table-hover table-striped table-vcenter table-bordered">
                     <thead class="thead-default">
                     <tr>
                         <th style="width: 50px;">ID</th>
@@ -97,16 +99,16 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
                             </td>
                             <td><?php \system\admin\Status::user($user->status); ?></td>
                             <td class="actions">
-                                    <a class="icon" data-toggle="tooltip"
-                                       title="编辑"
-                                       href="<?php echo url_for('/user/?action=edit', ['id' => $user->id]); ?>">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a class="icon" data-toggle="tooltip"
-                                       title="删除" href="javascript:void(0);"
-                                       onclick="delete_user('<?php echo $user->display_name; ?>',<?php echo $user->id; ?>);">
-                                        <i class="fa fa-trash "></i>
-                                    </a>
+                                <a class="btn btn-default btn-sm" data-toggle="tooltip"
+                                   title="编辑"
+                                   href="<?php echo url_for('/user/?action=edit', ['id' => $user->id]); ?>">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a class="btn btn-default btn-sm" data-toggle="tooltip"
+                                   title="删除" href="javascript:void(0);"
+                                   onclick="delete_user('<?php echo $user->display_name; ?>',<?php echo $user->id; ?>);">
+                                    <i class="fa fa-trash "></i>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -114,16 +116,18 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
 
                     </tbody>
                 </table>
-                <!-- END Orders Table -->
-            </div>
+
 
             <!-- Navigation -->
             <nav>
                 <?php echo $pagehelper->render(7, 'pagination  justify-content-center'); ?>
 
             </nav>
-            <!-- END Navigation -->
+
+
+            <!-- END Search -->
         </div>
+
     </div>
     <!-- END Orders -->
 </form>
@@ -131,7 +135,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
 <script>
     $(function () {
         $('#search_type_input .dropdown-menu a').on('click', function () {
-            $(this).parent().parent().prev().html($(this).html() + '  <span class="caret"></span>');
+            $(this).parent().parent().prev().html($(this).html());
             $('#st').val($(this).attr('data-type'));
         })
 
