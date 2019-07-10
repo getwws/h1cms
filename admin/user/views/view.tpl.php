@@ -1,41 +1,42 @@
-<?php get_header(); ?>
-<div class="be-content">
-    <div class="main-content container-fluid">
+<?php get_header();
+add_breadcrumb('账户信息', url_for('/user/'), '');
+?>
+<div class="page-header">
+    <div class="container-fluid">
+        <div class="pull-right">
+            <a href="<?php echo url_for('/user/?action=edit',['id'=>intval($_GET['id'])]);?>" class="btn btn-secondary">
+                <i class="fa fa-lock"></i> 修改密码
+            </a>
+            <a href="<?php echo url_for('/user/?action=edit',['id'=>intval($_GET['id'])]);?>" class="btn btn-space btn-primary">
+                <i class="fa fa-pencil"></i> 编辑
+            </a>
+        </div>
+        <h1><?php echo $this->title;?></h1>
+        <ol class="breadcrumb">
+            <?php foreach ($this->breadcrumbs as $breadcrumb){ ?>
+                <li class="breadcrumb-item"><a href="<?php echo $breadcrumb['link'];?>"><?php echo $breadcrumb['icon'];?> <?php echo $breadcrumb['title'];?></a></li>
+            <?php } ?>
+        </ol>
+    </div>
+</div>
 <form action="" method="post">
     <div class="content">
-        <!-- Customer -->
-        <h2 class="content-heading">
-            <a href="<?php echo url_for('/user/?action=changepassword',['id'=>intval($_GET['id'])]);?>" class="btn btn-sm btn-secondary float-right">
-                <i class="fa fa-lock text-info mr-5"></i>修改密码
-            </a>
-            <a href="<?php echo url_for('/user/?action=edit',['id'=>intval($_GET['id'])]);?>" class="btn btn-sm btn-secondary float-right">
-                <i class="fa fa-pencil text-info mr-5"></i>编辑
-            </a>
-
-            用户信息
-        </h2>
         <div class="row row-deck gutters-tiny">
             <!-- Billing Address -->
             <div class="col-md-6">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">账户信息</h3>
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">账户信息</div>
                     </div>
-                    <div class="block-content">
+                    <div class="ibox-body">
                         <div class="form-group row">
 
                             <div class="col-lg-12">
-                                <a class="block block-rounded block-link-shadow text-center" href="#">
+                                <a class="text-center" href="#">
                                     <div class="block-content bg-gd-dusk">
-                                        <div class="push">
-                                            <?php get_avatar($user->avatar, 64); ?>
-                                        </div>
-                                        <div class="pull-r-l pull-b py-10 bg-black-op-25">
-                                            <div class="font-w600 mb-5 text-white">
-                                                <i class="fa fa-user text-warning"></i> <?php echo $user->display_name;?>
-                                            </div>
-                                            <div class="font-size-sm text-white-op"><?php $rs = $user->getUserRoleNames(); echo join(',',$rs); ?></div>
-                                        </div>
+                                        <?php get_avatar($user->avatar, 64); ?>
+                                        <h5 class="font-strong m-b-10 m-t-10"><i class="fa fa-user text-warning"></i> <?php echo $user->display_name;?></h5>
+                                        <div class="m-b-20 text-muted"><?php $rs = $user->getUserRoleNames(); echo join(',',$rs); ?></div>
                                     </div>
 
                                 </a>
@@ -79,11 +80,11 @@
 
             <!-- Shipping Address -->
             <div class="col-md-6">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">个人信息</h3>
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">个人信息</div>
                     </div>
-                    <div class="block-content">
+                    <div class="ibox-body">
                         <?php $profile = $user->getUserProfile();?>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label" for="example-hf-email">姓名</label>
@@ -141,8 +142,7 @@
         <!-- END Addresses -->
     </div>
 </form>
-    </div>
-</div>
+
 <script>
     $(function () {
 

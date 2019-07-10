@@ -1,6 +1,6 @@
 {
   "repositories": {
-    "hmvc": {
+    "getwws": {
       "type": "git",
       "url": "https://github.com/getwws/getw.git"
     }

@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Allen <allen@lg4.cn>
+// | Author: Allen <allen@getw.com>
 // +----------------------------------------------------------------------
 
 
@@ -109,6 +109,9 @@ add_hook('footer', function () {
     if (has_flash()) {
         echo '<script>jQuery(function(){';
         foreach (get_flash() as $type => $messages) {
+            if($type=='error'){
+                $type = 'danger';
+            }
             $msg = array_get($messages, 0, '');
             echo <<<EOF
         jQuery.notify({

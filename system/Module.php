@@ -8,11 +8,13 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Allen <allen@lg4.cn>
+// | Author: Allen <allen@getw.com>
 // +----------------------------------------------------------------------
 
 namespace system;
 
+use getw\View;
+use system\Mustache;
 
 abstract class Module {
 
@@ -38,7 +40,7 @@ abstract class Module {
     }
 
     public function showMessage($message,$type = 'info'){
-        \getw\View::render(ROOT_PATH . DS . 'system/resources/admin_theme_error.php', [
+        View::render(ROOT_PATH . DS . 'system/resources/admin_theme_error.php', [
             'message'=>$message,
             'type'=>$type
         ]);
@@ -50,15 +52,15 @@ abstract class Module {
         $filename = str_replace('.', '/', $name);
         $maybe_in_views = preg_replace('/\//', '/views/', $filename, 1);
         if (is_file(THEME_PATH . DS . $filename . '.tpl.php')) {
-            \getw\View::render(THEME_PATH . DS . $filename . '.tpl.php', $data, $outputReturn);
+            View::render(THEME_PATH . DS . $filename . '.tpl.php', $data, $outputReturn);
         } else if (is_file(THEME_PATH . DS . $maybe_in_views . '.tpl.php')) {
-            \getw\View::render(THEME_PATH . DS . $maybe_in_views . '.tpl.php', $data, $outputReturn);
+            View::render(THEME_PATH . DS . $maybe_in_views . '.tpl.php', $data, $outputReturn);
         } else if (is_file(THEME_PATH . DS . $filename . '.html.php')) {
-            \getw\View::render(THEME_PATH . DS . $filename . '.html.php', $data, $outputReturn);
+            View::render(THEME_PATH . DS . $filename . '.html.php', $data, $outputReturn);
         } else if (is_file(THEME_PATH . DS . $maybe_in_views . '.html.php')) {
-            \getw\View::render(THEME_PATH . DS . $maybe_in_views . '.html.php', $data, $outputReturn);
+            View::render(THEME_PATH . DS . $maybe_in_views . '.html.php', $data, $outputReturn);
         } else if (is_file(THEME_PATH . DS . $filename . '.mustache')) {
-            \system\Mustache::render($filename, $data, $outputReturn);
+            Mustache::render($filename, $data, $outputReturn);
         }
     }
 

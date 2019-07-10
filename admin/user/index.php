@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Allen <allen@lg4.cn>
+// | Author: Allen <allen@getw.com>
 // +----------------------------------------------------------------------
 
 require '../autoload.php';
@@ -89,26 +89,42 @@ function addPost()
 }
 
 // ---------------- 修改用户 ------------------------------------- //
-function editGet()
+function editAction()
 {
+    $data = [];
+    if(isMethod('POST')){
+        $user = input_post('user');
+        $profile = input_post('profile');
+        $id = intval(input_post('uid'));
+        $orgin_user = User::findByUid($id);
+
+
+        $v = \system\Validator::make($_POST);
+        $v->rule(\system\Validator::RULE_REQUIRED, ['user.email', 'user.username']);
+        $v->labels(['user.email' => '用户名', 'user.username' => '密码']);
+        if ($v->validate()) {
+            if($orgin_user->email != $user['email'] && checkUserNameExists($user['email'])){
+                add_flash($user['email'].' 用户名已经存在!', Session::ERROR);
+                redirect(url_for('/user/?action=view', ['id' => $id]));
+            }
+            db_update('users', $user, ['id' => $id]);
+            db_update('users_profile', $profile, ['uid' => $id]);
+            add_flash('修改成功', Session::SUCCESS);
+            redirect(url_for('/user/?action=view', ['id' => $id]));
+        }
+        $data['validator'] = $v;
+    }
     page()->setTitle('用户管理');
     page()->setLeftMenuActive('user.index');
     $id = intval(input_get('id'));
     $user = User::findByUid($id);
     $profile = $user->getUserProfile();
-    render('user.edit', ['user' => $user, 'profile' => $profile, 'id' => $id]);
+    $data['user'] = $user;
+    $data['profile'] = $profile;
+    $data['id'] = $id;
+    render('user.edit', $data);
 }
 
-function editPost()
-{
-    $user = input_post('user');
-    $profile = input_post('profile');
-    $id = intval(input_post('uid'));
-    db_update('users', $user, ['id' => $id]);
-    db_update('users_profile', $profile, ['uid' => $id]);
-    add_flash('修改成功', Session::SUCCESS);
-    redirect(url_for('/user/?action=view', ['id' => $id]));
-}
 
 function deleteAction()
 {
@@ -129,12 +145,15 @@ function deleteAction()
 function checkusernameAction()
 {
     $user = input_get('user');
+    $uid = input_get('id');
     $username = array_get($user, 'username');
     if (empty($username)) {
         echo 'false';
     }
     $u = User::findByUsername($username);
     if ($u === false) {
+        echo 'true';
+    } else if(User::findByUid($uid)->username = $username ){
         echo 'true';
     } else {
         echo 'false';
@@ -144,12 +163,25 @@ function checkusernameAction()
 function checkemailAction()
 {
     $user = input_get('user');
+    $uid = input_get('id');
     $email = array_get($user, 'email');
     $u = User::findByEmail($email);
     if ($u === false) {
         echo 'true';
-    } else {
+    } else if(User::findByUid($uid)->email = $email ){
+        echo 'true';
+    }  else {
         echo 'false';
     }
 }
+
+function checkUserNameExists($username){
+    $u = User::findByUsername($username);
+    if ($u === false) {
+        return false;
+    } else {
+        return false;
+    }
+}
+
 

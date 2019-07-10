@@ -156,13 +156,13 @@ function uiSelect2() {
     });
 }
 
-function jquery_validator(roles, messages,handler) {
+function jquery_validator(_roles, _messages,handler) {
     if(typeof handler !== 'function'){
         handler = function(form) {
             form.submit();
         }
     }
-    jQuery('.jquery-validate-form').validate({
+    jQuery('.jq-validate').validate({
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
         },
@@ -178,8 +178,8 @@ function jquery_validator(roles, messages,handler) {
                 error.insertAfter(element);
             }
         },
-        rules: roles,
-        messages: messages,
+        rules: _roles,
+        messages: _messages,
         submitHandler : handler
     });
 }

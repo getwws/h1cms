@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Allen <allen@lg4.cn>
+// | Author: Allen <allen@getw.com>
 // +----------------------------------------------------------------------
 if (DEBUG) {
     $whoops = new \Whoops\Run;
@@ -107,7 +107,9 @@ function register_assets_plugins($name , $callback = null)
             add_js('vendor/flatpickr/flatpickr.min.js', 'footer', ASSETS_URL);
             break;
         case 'jquery-validation':
+
             add_js('vendor/jquery-validation/jquery.validate.js', 'footer', ASSETS_URL);
+            add_js('js/jqvalidate.methods.js', 'footer', ASSETS_ADMIN_URL);
             break;
         case 'summernote':
             add_css('vendor/summernote/summernote-bs4.css', 'header', ASSETS_URL);

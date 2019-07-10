@@ -19,7 +19,7 @@
                     <a class="btn btn-default" href="<?php echo url_for('/products/'); ?>">
                         <i class="fa fa-cubes"></i> <?php echo __('产品管理'); ?>
                     </a>
-                    <a class="btn btn-default" href="<?php echo url_for('/users/'); ?>">
+                    <a class="btn btn-default" href="<?php echo url_for('/user/'); ?>">
                         <i class="fa fa-users"></i> <?php echo __('用户管理'); ?>
                     </a>
                     <a class="btn btn-default" href="<?php echo url_for('/system/setting.php'); ?>">
@@ -47,9 +47,9 @@
                             <tbody>
                             <tr>
                                 <td>H1CMS版本</td>
-                                <td><?php echo HMVC_VERSION; ?></td>
+                                <td><?php echo GETW_VERSION; ?></td>
                                 <td>数据库</td>
-                                <td><?php echo \getw\Arr::get($db_info, 'driver', ''), ' ', \getw\Arr::get($db_info, 'version', ''); ?></td>
+                                <td><?php echo array_get($db_info, 'driver', ''), ' ', array_get($db_info, 'version', ''); ?></td>
                             </tr>
                             <tr>
                                 <td>PHP版本</td>
