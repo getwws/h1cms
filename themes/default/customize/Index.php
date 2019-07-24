@@ -30,17 +30,14 @@ class Index extends ThemeController
     }
     public function index()
     {
-        $this->pageasiede->setMenuActive('setting');
-        $this->pageasiede->render(function(){
-            $this->render('customize.views.index');
-        });
+        $this->setting();
     }
 
     public function setting()
     {
         $this->pageasiede->setMenuActive('setting');
         $this->pageasiede->render(function(){
-            $this->render('customize.views.index');
+            $this->render('customize.views.setting');
         });
     }
 
@@ -48,7 +45,7 @@ class Index extends ThemeController
     {
         $this->pageasiede->setMenuActive('nav');
         $this->pageasiede->render(function(){
-            $this->render('customize.views.index');
+            $this->render('customize.views.nav');
         });
     }
 }

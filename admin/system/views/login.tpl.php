@@ -1,3 +1,4 @@
+<?php register_assets_plugins('font-awesome');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,38 +77,43 @@
     </style>
 </head>
 <body class="bg-silver-300">
-    <div class="content">
+    <div class="content mt-5">
         <div class="brand">
             <img src="<?php echo ASSETS_ADMIN_URL; ?>/img/logo.png" alt="logo"  class="logo-img">
         </div>
         <form class="jquery-validate-loginform" id="login-form" action="<?php echo url_for('/system/login.php'); ?>"
                   method="post">
+                    <h2 class="login-title">登录</h2>
                 <div class="form-group <?php echo ifOr(form_has_error('username'), 'has-error'); ?>">
-                    <label for="username">用户名</label>
-                    <input id="username" name="username" type="text" placeholder="用户名" autocomplete="off"
-                           class="form-control">
+<!--                    <label for="username">用户名</label>-->
+                    <div class="input-group-icon right">
+                        <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                        <input id="username" name="username" type="text" placeholder="用户名" autocomplete="off"
+                               class="form-control">
+                    </div>
                     <span class="help-block"><?php echo form_error('username'); ?></span>
                 </div>
                 <div class="form-group <?php echo ifOr(form_has_error('password'), 'has-error'); ?>">
-                    <label for="password">密码</label>
-                    <input id="password" name="password" type="password" placeholder="密码"
-                           class="form-control">
+<!--                    <label for="password">密码</label>-->
+                    <div class="input-group-icon right">
+                        <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
+                        <input id="password" name="password" type="password" placeholder="密码"
+                               class="form-control">
+                    </div>
                     <span class="help-block"><?php echo form_error('password'); ?></span>
                 </div>
                 <?php
                 if (has_flash('error')) {
                     ?>
                     <div class="form-group">
-                        <div class="col-12">
-                            <div class="alert alert-danger alert-dismissable" role="alert">
-                                <button type="button" class="close" data-dismiss="alert"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                <p class="mb-0"><?php foreach (get_flash('error') as $error) {
-                                        echo $error, '<br/>';
-                                    } ?></p>
-                            </div>
+                        <div class="alert alert-danger alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <p class="mb-0"><?php foreach (get_flash('error') as $error) {
+                                    echo $error, '<br/>';
+                                } ?></p>
                         </div>
                     </div>
                     <?php
@@ -119,7 +125,7 @@
             </form>
 
     </div>
-                <p class="text-muted text-center"><small>Copyright © LITK 2018</small></p>
+                <p class="text-muted text-center"><small>Copyright © GETW 2018</small></p>
 
 
 <script src="<?php echo ASSETS_URL; ?>/js/popper.min.js"></script>

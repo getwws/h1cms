@@ -2,6 +2,7 @@
 <?php get_header();
 add_breadcrumb('角色管理', url_for('/user/roles.php'), '');
 ?>
+<form action="" method="post" class="jquery-validate-form form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -18,10 +19,6 @@ add_breadcrumb('角色管理', url_for('/user/roles.php'), '');
         </ol>
     </div>
 </div>
-
-<form action="" method="post" class="jquery-validate-form form-horizontal">
-
-
 
     <div class="row">
 

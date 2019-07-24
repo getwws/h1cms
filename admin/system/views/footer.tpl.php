@@ -31,5 +31,6 @@
 
     });
 </script>
+        <?php if(DEBUG){ echo page()->phpdebugbar->getJavascriptRenderer()->render(); } ?>
 </body>
 </html>

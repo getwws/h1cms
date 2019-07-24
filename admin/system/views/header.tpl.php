@@ -15,6 +15,7 @@
     <?php echo $this->printCSS('header'); ?>
     <?php echo $this->printJS('header'); ?>
     <?php do_hooks('header'); ?>
+    <?php if(DEBUG){ echo page()->phpdebugbar->getJavascriptRenderer()->renderHead(); } ?>
 </head>
 <body class="fixed-navbar fixed-layout">
 <?php do_hooks('body_begin'); ?>

@@ -16,6 +16,7 @@ require '../autoload.php';
 use system\Auth;
 use system\model\Node;
 use getw\DB;
+use system\component\Paginator;
 
 function indexAction()
 {
@@ -33,7 +34,7 @@ function indexAction()
     } else if ($st == 'id' && $s) {
         $query->where('n.node_id=:node_id',['node_id'=>intval($s)]);
     }
-    $pagehelper = \system\component\Paginator::make(input_get('page', 1), 20, $_GET);
+    $pagehelper = Paginator::make(input_get('page', 1), 20, $_GET);
     $pagehelper->setTotal(Node::count($query));
     $query->limit($pagehelper->getLimit(),$pagehelper->getOffset());
     $nodes = Node::getAll($query);

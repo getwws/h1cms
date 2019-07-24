@@ -1,39 +1,33 @@
-<div class="be-content  be-no-padding be-aside">
+<div class="page-content">
     <form action="" method="post">
-        <aside class="page-aside">
-            <div class="be-scroller">
-                <div class="aside-content">
-                    <div class="content">
-                        <div class="aside-header">
-                            <button data-target=".aside-nav" data-toggle="collapse" type="button"
-                                    class="navbar-toggle"><span class="fa fa-caret-down"></span></button>
-                            <span class="title"><?php echo $title;?></span>
-                            <p class="description"><?php echo $description;?></p>
-                        </div>
-                    </div>
-                    <div class="aside-nav collapse">
-                        <ul class="nav">
-                            <?php foreach($menus as $menu){ ?>
-                            <li class="<?php echo ifOr($menu['active'],'active','');?>">
-                                <a href="<?php echo $menu['link']; ?>">
-                                    <i class="<?php echo $menu['icon']; ?>"></i> <?php echo $menu['title']; ?></a>
-                            </li>
-                            <?php } ?>
+        <div class="row ">
+            <div class="col-lg-2 col-md-3">
+                <h6 class="m-t-10 m-b-10"><?php echo $title;?></h6>
+                <p class="description"><?php echo $description;?></p>
+
+                <ul class="list-group list-group-divider inbox-list">
+                    <?php foreach($menus as $menu){ ?>
+                    <li class="list-group-item <?php echo ifOr($menu['active'],'active','');?>">
+                        <a href="<?php echo $menu['link']; ?>">
+                            <i class="<?php echo $menu['icon']; ?>"></i> <?php echo $menu['title']; ?></a>
+                    </li>
+                    <?php } ?>
 
 
-                        </ul>
-                        <div class="aside-compose"><a class="btn btn-lg btn-primary btn-block" target="_blank" href="<?php echo BASE_URL;?>">预览</a></div>
-                    </div>
+                </ul>
+<!--                <div ><a class="btn btn-block btn-sm" target="_blank" href="--><?php //echo BASE_URL;?><!--">预览</a></div>-->
 
-                </div>
+
+
             </div>
-        </aside>
-        <div class="main-content container-fluid">
-            <?php if(is_callable($content_callback)){
-                echo $content_callback();
-            } ?>
-
+            <div class="col-lg-10 col-md-9">
+                <?php if(is_callable($content_callback)){
+                    echo $content_callback();
+                } ?>
+            </div>
         </div>
+
     </form>
 </div>
+
 

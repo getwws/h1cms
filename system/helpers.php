@@ -25,6 +25,11 @@ define('SESSION_WARNING', 'warning');
 define('SESSION_ERROR', 'error');
 
 
+/**
+ * BASE URL
+ * @param string|null $url
+ * @return string 默认返回站点URL
+ */
 function base_url($url = null)
 {
     $documentRoot = getw\Input::server('DOCUMENT_ROOT', '');
@@ -97,6 +102,13 @@ function page()
 }
 
 
+/**
+ * 渲染模板
+ * @param $name 模板名称
+ * @param array $data 参数
+ * @param bool $outputReturn true返回模板内容
+ * @return string|null
+ */
 function render($name, $data = [], $outputReturn = false)
 {
     if (defined('H_ADMIN')) {
@@ -120,7 +132,7 @@ function render($name, $data = [], $outputReturn = false)
 
 function form_error($field, $validate_name = 'validator')
 {
-    if (isset(page()->$validate_name) && page()->$validate_name instanceof \system\Validator) {
+    if (isset(page()->$validate_name) && page()->$validate_name instanceof \getw\FormValidator) {
         return page()->$validate_name->first($field);
     }
     return NULL;
@@ -128,7 +140,7 @@ function form_error($field, $validate_name = 'validator')
 
 function form_errors($validate_name = 'validator')
 {
-    if (isset(page()->$validate_name) && page()->$validate_name instanceof \system\Validator) {
+    if (isset(page()->$validate_name) && page()->$validate_name instanceof \getw\FormValidator) {
         return page()->$validate_name->errors();
     }
     return [];
@@ -136,7 +148,7 @@ function form_errors($validate_name = 'validator')
 
 function form_has_error($field, $validate_name = 'validator')
 {
-    if (isset(page()->$validate_name) && page()->$validate_name instanceof \system\Validator) {
+    if (isset(page()->$validate_name) && page()->$validate_name instanceof \getw\FormValidator) {
         return page()->$validate_name->hasError($field);
     }
     return false;
