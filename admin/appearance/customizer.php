@@ -16,8 +16,10 @@ require '../autoload.php';
 page()->setLeftMenuActive('appearance.customizer');
 page()->setTitle('主题设置');
 if(!class_exists('theme\customize\Theme')){
-    throw new Exception("该模板不支持该功能!!!");
+    system_abort("该模板不支持该功能!!!");
+}else{
+    render('appearance.customizer' , [
+        'current_theme' => get_option('site.theme','default')
+    ]);
 }
-render('appearance.customizer' , [
-    'current_theme' => get_option('site.theme','default')
-]);
+
