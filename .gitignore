@@ -4,7 +4,7 @@ nbproject/private/
 nbproject
 build/
 nbbuild/
-dist/
+/dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml

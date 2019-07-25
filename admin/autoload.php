@@ -32,8 +32,7 @@ define('THTMES_URL', BASE_URL . '/themes');
 //SYSTEM
 define('DEBUG', Config::get('config.debug', 'false'));
 date_default_timezone_set(Config::get('config.timezone', 'PRC'));
-getw\Translator::create('zh');
-getw\Translator::instance()->setFallbackLocales(['zh', 'zh_CN']);
+
 
 
 $theme = get_option('site.theme');
@@ -43,9 +42,10 @@ app_set('loader',$autoloader);
 app_set('theme',$theme);
 $autoloader->addPsr4('theme\\', THEME_PATH);
 
+// 多语言实现
+//$langs = get_browser_language();
+//load_language('admin',$langs);
 
-
-//getw\Translator::instance()->addResource('php',STORAGE_PATH . DS . 'languages/admin.zh_CN.php', 'zh');
 require 'system/includes/common.php';
 if (!defined('H_ADMIN_LOGIN')) {
     //登录检查
