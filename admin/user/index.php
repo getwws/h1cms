@@ -15,6 +15,8 @@ require '../autoload.php';
 
 use getw\Session;
 use system\model\User;
+use getw\FormValidator;
+use getw\Validator as v;
 
 function indexGet()
 {
@@ -57,7 +59,7 @@ function addGet()
     page()->setTitle('用户管理');
     page()->setLeftMenuActive('user.add');
 
-    render('user.add', ['roles' => \system\model\Role::getAll()]);
+    render('user.add');
 }
 
 function addPost()
@@ -95,24 +97,22 @@ function editAction()
     if(isMethod('POST')){
         $user = input_post('user');
         $profile = input_post('profile');
+        $changepwd = input_post('changepwd');
         $id = intval(input_post('uid'));
-        $orgin_user = User::findByUid($id);
 
-
-        $v = \system\Validator::make($_POST);
-        $v->rule(\system\Validator::RULE_REQUIRED, ['user.email', 'user.username']);
-        $v->labels(['user.email' => '用户名', 'user.username' => '密码']);
-        if ($v->validate()) {
-            if($orgin_user->email != $user['email'] && checkUserNameExists($user['email'])){
-                add_flash($user['email'].' 用户名已经存在!', Session::ERROR);
-                redirect(url_for('/user/?action=view', ['id' => $id]));
+        $v = validateEdit($id);
+        if ($v === true) {
+            if(!empty($changepwd['password1'])){
+                $user['password'] = \system\Password::make($changepwd['password1']);
             }
             db_update('users', $user, ['id' => $id]);
             db_update('users_profile', $profile, ['uid' => $id]);
             add_flash('修改成功', Session::SUCCESS);
             redirect(url_for('/user/?action=view', ['id' => $id]));
+        }else{
+            $data['validator'] = $v;
         }
-        $data['validator'] = $v;
+
     }
     page()->setTitle('用户管理');
     page()->setLeftMenuActive('user.index');
@@ -145,15 +145,15 @@ function deleteAction()
 function checkusernameAction()
 {
     $user = input_get('user');
-    $uid = input_get('id');
+    $uid = intval(input_get('id',0));
     $username = array_get($user, 'username');
     if (empty($username)) {
         echo 'false';
     }
     $u = User::findByUsername($username);
-    if ($u === false) {
+    if($uid >=1 && User::findByUid($uid)->username == $username ){
         echo 'true';
-    } else if(User::findByUid($uid)->username = $username ){
+    } else if ($u === false) {
         echo 'true';
     } else {
         echo 'false';
@@ -163,14 +163,14 @@ function checkusernameAction()
 function checkemailAction()
 {
     $user = input_get('user');
-    $uid = input_get('id');
+    $uid = intval(input_get('id',0));
     $email = array_get($user, 'email');
     $u = User::findByEmail($email);
-    if ($u === false) {
+    if($uid >=1 && User::findByUid($uid)->email == $email ){
         echo 'true';
-    } else if(User::findByUid($uid)->email = $email ){
+    } else if ($u === false) {
         echo 'true';
-    }  else {
+    } else {
         echo 'false';
     }
 }
@@ -180,8 +180,47 @@ function checkUserNameExists($username){
     if ($u === false) {
         return false;
     } else {
-        return false;
+        return true;
     }
 }
+function checkEmailExists($email){
+    $u = User::findByEmail($email);
+    if ($u === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function validateEdit($id){
+    $orgin_user = User::findByUid($id);
+    $changepwd = input_post('changepwd');
+    FormValidator::addRule('checkemail',function($field, $value) use ($orgin_user) {
+        if($orgin_user->email != $value && checkEmailExists($value)){
+            return false;
+        }return true;
+    },'已存在');
+    FormValidator::addRule('checkusername',function($field, $value) use ($orgin_user) {
+        if($orgin_user->username != $value && checkUserNameExists($value)){
+            return false;
+        }return true;
+    },'已存在');
+
+    $v = FormValidator::make($_POST);
+    $v->rule(FormValidator::RULE_REQUIRED, ['user.email', 'user.username']);
+    $v->rule(FormValidator::RULE_LENGTH_BETWEEN,'user.username',3,30);
+    $v->rule(FormValidator::RULE_EMAIL,'user.email');
+    $v->rule('checkemail','user.email');
+    $v->rule('checkusername','user.username');
+    $v->labels(['user.email' => '用户名', 'user.username' => '密码']);
+    if(isset($changepwd['password1']) && isset($changepwd['password2']) && $changepwd['password1']!=$changepwd['password2']){
+        $v->error('changepwd.password1','两次输入的密码不相同');
+    }
+    if($v->validate()){
+        return true;
+    }
+    return $v;
+}
+
 
 

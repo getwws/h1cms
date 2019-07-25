@@ -1,9 +1,11 @@
 <?php
 register_assets_plugins('jquery-validation');
 register_assets_plugins('flatpickr');
+?>
+<?php get_header();
 add_breadcrumb('用户信息', url_for('/user/index.php'), '');
 ?>
-<?php get_header(); ?>
+<form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -19,9 +21,8 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
     </div>
 </div>
 
-<form action="" method="post" class="jquery-validate-form form-horizontal">
 
-  <div class="ibox ">
+  <div class="ibox ibox-default">
                 <div class="ibox-body">
                     <ul class="nav nav-tabs tabs-line">
                         <li class="nav-item">
@@ -35,80 +36,75 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-1" aria-expanded="true">
 
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-roles">角色</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-roles">角色</label>
                                 <div class="col-lg-7">
                                     <select class="form-control input-sm" id="user-roles" name="role_id">
-                                        <!--                                    <option></option>-->
-                                        <?php foreach ($roles as $role) { ?>
-                                            <option value="<?php echo $role->id; ?>"><?php echo $role->title; ?></option>
-                                        <?php } ?>
+                                        <?php
+                                        \system\component\HControl::instance()->SELECT_Roles();
+                                        ?>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group ">
-                                <label class="col-lg-3 control-label" for="user-email">Email</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-email">Email</label>
                                 <div class="col-lg-7">
                                     <input type="email" class="form-control input-sm required" id="user-email"
                                            name="user[email]"
                                            value="<?php echo $user->email; ?>" placeholder="请输入Email">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-username">用户名</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-username">用户名</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm required" id="user-username"
                                            name="user[username]" value="<?php echo $user->username; ?>"
                                            placeholder="请输入用户名">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-password">密码</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-password">密码</label>
                                 <div class="col-lg-7">
-                                    <input type="text" class="form-control input-sm" id="user-password" name="user[password]"
+                                    <input type="password" class="form-control input-sm" id="user-password" name="user[password]"
                                            value="<?php echo $user->password; ?>" placeholder="请输入密码">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-repassword">再次输入密码</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-repassword">再次输入密码</label>
                                 <div class="col-lg-7">
-                                    <input type="text" class="form-control input-sm" id="user-repassword"
+                                    <input type="password" class="form-control input-sm" id="user-repassword"
                                            name="user[repassword]"
                                            value="<?php echo $user->repassword; ?>" placeholder="请再次输入密码">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-displayname">昵称</label>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-displayname">昵称</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="user-displayname"
                                            name="user[display_name]"
                                            value="<?php echo $user->display_name; ?>" placeholder="请输入昵称">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="user-status">账户状态</label>
-                                <div class="col-lg-7">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label rigth-label" for="user-status">账户状态</label>
+                                <div class="col-lg-7  pt-2">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="user-status" name="user[status]" class="custom-control-input" value="1"
+                                            <?php echo ifOr($user->status || is_null($user), 'checked'); ?> />
+                                        <label class="custom-control-label" for="user-status">启用</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="user-status-2" name="user[status]" class="custom-control-input" value="0"
+                                            <?php echo ifOr($user->status === 0, 'checked'); ?> />
+                                        <label class="custom-control-label" for="user-status-2">禁用</label>
+                                    </div>
 
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="user-status"
-                                               name="user[status]"
-                                               value="1" <?php echo ifOr($user->status || is_null($user), 'checked'); ?> >
-                                        <span class="custom-control-indicator"></span>
-                                        <span class="custom-control-description">启用</span>
-                                    </label>
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="user-status-2"
-                                               name="user[status]"
-                                               value="0" <?php echo ifOr($user->status === 0, 'checked'); ?> >
-                                        <span class="custom-control-indicator"></span>
-                                        <span class="custom-control-description">禁用</span>
-                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="tab-2" aria-expanded="false">
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-last-name">姓氏</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-last-name">姓氏</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-last-name"
                                            name="profile[last_name]"
@@ -116,7 +112,7 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-first-name">名字</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-first-name">名字</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-first-name"
                                            name="profile[first_name]" value="<?php echo $profile->first_name; ?>"
@@ -124,25 +120,22 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="example-hf-email">性别</label>
-                                <div class="col-lg-7">
-
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="profile-sex-1"
-                                               name="profile[sex]" value="1" <?php echo $profile->sex ? 'checked' : ''; ?> >
-                                        <span class="custom-control-indicator"></span>
-                                        <span class="custom-control-description">男</span>
-                                    </label>
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="profile-sex-2"
-                                               name="profile[sex]" value="0" <?php echo $profile->sex ? '' : 'checked'; ?> >
-                                        <span class="custom-control-indicator"></span>
-                                        <span class="custom-control-description">女</span>
-                                    </label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-sex-1">性别</label>
+                                <div class="col-lg-7 pt-2">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="profile-sex-1" name="profile[sex]" class="custom-control-input" value="1"
+                                            <?php echo $profile->sex ? 'checked' : ''; ?> />
+                                        <label class="custom-control-label" for="profile-sex-1">男</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="profile-sex-2" name="profile[sex]" class="custom-control-input" value="0"
+                                            <?php echo $profile->sex ? '' : 'checked'; ?> />
+                                        <label class="custom-control-label" for="profile-sex-2">女</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-birthday">生日</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-birthday">生日</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="ui-datepicker form-control input-sm" id="profile-birthday"
                                            name="profile[birthday]"
@@ -150,7 +143,7 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-company">公司</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-company">公司</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-company"
                                            name="profile[company]"
@@ -158,7 +151,7 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-jobtitle">职位</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-jobtitle">职位</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-job_title"
                                            name="profile[job_title]"
@@ -166,7 +159,7 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-office_phone">工作电话</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-office_phone">工作电话</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-office_phone"
                                            name="profile[office_phone]" value="<?php echo $profile->office_phone; ?>"
@@ -174,14 +167,14 @@ add_breadcrumb('用户信息', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="example-hf-email">私人电话</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="example-hf-email">私人电话</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control input-sm" id="profile-phone" name="profile[phone]"
                                            value="<?php echo $profile->phone; ?>" placeholder="请输入手机号">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 control-label" for="profile-about">关于我</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-about">关于我</label>
                                 <div class="col-lg-7">
                                 <textarea rows="3" class="form-control input-sm" id="profile-about"
                                           name="profile[about]"

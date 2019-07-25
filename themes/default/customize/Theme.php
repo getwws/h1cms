@@ -29,6 +29,5 @@ class Theme extends ThemeController {
            'name' => '主题设置',
            'url' => url_for('/appearance/customizer.php')
        ],'appearance');
-
    }
 }

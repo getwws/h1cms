@@ -2719,7 +2719,12 @@ table.dataTable {
   text-align: right;
   font-weight: bold;
 }
-
+@media screen and (max-width: 980px) {
+  .rigth-label {
+    text-align: left;
+    font-weight: bold;
+  }
+}
 div.required .col-form-label:not(span):before, td.required:before {
   content: '* ';
   color: #F00;

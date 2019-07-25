@@ -15,4 +15,4 @@ h1cms.iml
 .idea
 tests
 composer.lock
-vendor
+/vendor

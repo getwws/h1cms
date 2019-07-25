@@ -63,19 +63,20 @@ add_breadcrumb('用户管理', url_for('/user/index.php'), '');
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-info" aria-expanded="true">
-                            <div class="form-group row  required">
+                            <div class="form-group row  required <?php echo ifOr(form_has_error('user.email'),'has-error'); ?>">
                                 <label class="col-lg-3 col-form-label rigth-label" for="user-email">Email</label>
                                 <div class="col-lg-7 ">
                                     <input type="email" class="form-control" id="user-email" name="user[email]"
                                            value="<?php echo $user->email; ?>" placeholder="请输入Email">
-                                    <span class="help-block"><?php echo form_error('user.email'); ?></span>
+                                    <span class="help-block" ><?php echo form_error('user.email'); ?></span>
                                 </div>
                             </div>
-                            <div class="form-group row required">
+                            <div class="form-group row required <?php echo ifOr(form_has_error('user.username'),'has-error'); ?>">
                                 <label class="col-lg-3 col-form-label rigth-label" for="user-username">用户名</label>
                                 <div class="col-lg-7">
                                     <input type="text" class="form-control" id="user-username" name="user[username]"
                                            value="<?php echo $user->username; ?>" placeholder="请输入用户名">
+                                    <span class="help-block"><?php echo form_error('user.username'); ?></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -119,7 +120,7 @@ add_breadcrumb('用户管理', url_for('/user/index.php'), '');
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label rigth-label" for="example-hf-email">性别</label>
+                                <label class="col-lg-3 col-form-label rigth-label" for="profile-sex-1">性别</label>
                                 <div class="col-lg-7 pt-2">
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="profile-sex-1" name="profile[sex]" class="custom-control-input" value="1"
@@ -179,18 +180,12 @@ add_breadcrumb('用户管理', url_for('/user/index.php'), '');
                             </div>
                         </div>
                         <div class="tab-pane fade" id="chgpasswd" aria-expanded="false">
-                            <div class="form-group row  required">
-                                <label class="col-lg-3 col-form-label rigth-label" for="changepwd-password">当前登录密码</label>
-                                <div class="col-lg-7 rigth-label">
-                                    <input type="password" class="form-control" id="changepwd-password" name="changepwd[password]"
-                                           value="" placeholder="请输入当前登录密码">
-                                </div>
-                            </div>
                             <div class="form-group row required">
                                 <label class="col-lg-3 col-form-label rigth-label" for="changepwd-password1">新密码</label>
                                 <div class="col-lg-7 rigth-label">
                                     <input type="password" class="form-control" id="changepwd-password1" name="changepwd[password1]"
                                            value="" placeholder="请输入新密码">
+                                    <span class="help-block" ><?php echo form_error('changepwd.password1'); ?></span>
                                 </div>
                             </div>
                             <div class="form-group row required">
@@ -233,9 +228,6 @@ add_breadcrumb('用户管理', url_for('/user/index.php'), '');
                     remote: '?action=checkusername&id=<?php echo $user->id;?>',
                     minlength: 3
                 },
-                'changepwd[password]': {
-                    exists_not_empty: '#changepwd-password1'
-                },
                 'changepwd[password1]': {
                     minlength: 6
                 },
@@ -254,9 +246,6 @@ add_breadcrumb('用户管理', url_for('/user/index.php'), '');
                     required: '请输入用户名',
                     minlength: '用户名至少3个字符',
                     remote: '用户名已被占用'
-                },
-                'changepwd[password]': {
-                    exists_not_empty: '请输入当前密码'
                 },
                 'changepwd[password1]': {
                     minlength: '密码至少6位'

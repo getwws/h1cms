@@ -15,13 +15,13 @@ define('H_ADMIN_LOGIN', true);
 require '../autoload.php';
 
 use getw\Session;
-use system\Validator as v;
-use Respect\Validation\Validator as vv;
+use getw\FormValidator as v;
+use getw\Validator as vv;
+use system\model\User;
 
 function doGet()
 {
     page()->title = 'H1CMS - 系统登录';
-    register_assets_plugins('font-awesome');
     render('system.login');
 }
 
@@ -35,9 +35,9 @@ function doPost()
         exit;
     }
     if (vv::email()->validate(input_post('username'))) {
-        $user = \system\model\User::findByEmail(input_post('username'));
+        $user = User::findByEmail(input_post('username'));
     } else {
-        $user = \system\model\User::findByUsername(input_post('username'));
+        $user = User::findByUsername(input_post('username'));
     }
     if (!$user || \system\Password::verify(input_post('password'), $user->password) == false) {
         add_flash('用户名或密码错误', Session::ERROR);

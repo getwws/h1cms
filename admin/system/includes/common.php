@@ -11,14 +11,10 @@
 // | Author: Allen <allen@getw.com>
 // +----------------------------------------------------------------------
 if (DEBUG) {
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    if (\Whoops\Util\Misc::isAjaxRequest()) {
-        $jsonHandler = new \Whoops\Handler\JsonResponseHandler();
-        $jsonHandler->setJsonApi(true);
-        $whoops->pushHandler($jsonHandler);
-    }
-    $whoops->register();
+    $debugbar = new \DebugBar\StandardDebugBar();
+    $debugbarRenderer = $debugbar->getJavascriptRenderer();
+    $debugbarRenderer->setBaseUrl(BASE_URL . $debugbarRenderer->getBaseUrl());
+    page()->phpdebugbar = $debugbar;
 }
 
 
@@ -37,6 +33,13 @@ function get_header()
 function get_footer()
 {
     page()->fetch('system/views/footer');
+}
+
+function system_abort($data){
+    if(!is_array($data)){
+        $data = ['message'=>$data];
+    }
+    render('system.abort', $data);
 }
 
 function get_avatar($avatar = 'default.jpg', $size = 16, $thumb = false, $class = '')

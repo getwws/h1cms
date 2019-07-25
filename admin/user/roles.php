@@ -75,7 +75,6 @@ function editGet()
 function editPost()
 {
     $role = input_post('role');
-
     $id = intval(input_get('id'));
     $title = array_get($role, 'title');
     if (empty($title)) {

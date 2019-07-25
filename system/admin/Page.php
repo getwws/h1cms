@@ -37,6 +37,8 @@ class Page
 
     protected $breadcrumbs = [];
 
+    public $phpdebugbar;
+
     protected static $instance;
 
     /**
@@ -49,6 +51,10 @@ class Page
             static::$instance->start();
         }
         return static::$instance;
+    }
+
+    public function dump($msg, $label = 'info', $isString = true){
+        $this->phpdebugbar["messages"]->addMessage($msg, $label, $isString);
     }
 
     public function start()
@@ -335,10 +341,9 @@ class Page
     }
 
     /**
-     * Get a data by key
      *
-     * @param string The key data to retrieve
-     * @access public
+     * @param $key
+     * @return mixed
      */
     public function &__get($key)
     {
@@ -346,11 +351,8 @@ class Page
     }
 
     /**
-     * Assigns a value to the specified data
-     *
-     * @param string The data key to assign the value to
-     * @param mixed  The value to set
-     * @access public
+     * @param $key
+     * @param $value
      */
     public function __set($key, $value)
     {

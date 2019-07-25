@@ -1,5 +1,6 @@
 <?php get_header();
 add_breadcrumb('文章管理', url_for('/node/'), '<i class="fa fa-clone"></i>');
+add_breadcrumb('单页管理', url_for('/node/page.php'), '');
 ?>
 <div class="page-header">
     <div class="container-fluid">
@@ -57,7 +58,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '<i class="fa fa-clone"></i>')
                             <th style="width: 5%;">ID</th>
                             <th>文章标题</th>
                             <th style="width: 10%">浏览次数</th>
-                            <th style="width: 15%">添加时间</th>
+                            <th style="width: 20%">添加时间</th>
                             <th style="width: 5%">状态</th>
                             <th class="text-center" style="width: 100px;">Actions</th>
                         </tr>
@@ -69,12 +70,10 @@ add_breadcrumb('文章管理', url_for('/node/'), '<i class="fa fa-clone"></i>')
                             ?>
                             <tr>
                                 <td>
-                                    <a class="font-w600"
-                                       href="<?php echo url_for('/node/page.php?action=edit', ['id' => $node->node_id]); ?>"><?php echo $node->node_id; ?></a>
+                                    <a href="<?php echo url_for('/node/page.php?action=edit', ['id' => $node->node_id]); ?>"><?php echo $node->node_id; ?></a>
                                 </td>
                                 <td>
-                                    <a class="font-w600"
-                                       href="<?php echo url_for('/node/page.php?action=edit', ['id' => $node->node_id]); ?>"><?php echo $node->title; ?></a>
+                                    <a href="<?php echo url_for('/node/page.php?action=edit', ['id' => $node->node_id]); ?>"><?php echo $node->title; ?></a>
                                 </td>
 
                                 <td>
