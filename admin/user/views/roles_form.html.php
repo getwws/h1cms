@@ -2,7 +2,7 @@
 <?php get_header();
 add_breadcrumb('角色管理', url_for('/user/roles.php'), '');
 ?>
-<form action="" method="post" class="jquery-validate-form form-horizontal">
+<form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -58,19 +58,17 @@ add_breadcrumb('角色管理', url_for('/user/roles.php'), '');
 
 <script>
     function page_end() {
-        jquery_validator(
-            {
+        jquery_validator({
                 'role[title]': {
                     required: true,
                     minlength: 1
                 }
             },
             {
-                'role[title]':
-                    {
-                        required: '请输入角色名称',
-                        minlength: '请输入角色名称'
-                    }
+                'role[title]':{
+                    required: '请输入角色名称',
+                    minlength: '请输入角色名称'
+                }
             }
         );
     }

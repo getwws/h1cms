@@ -76,7 +76,7 @@
 
     </style>
 </head>
-<body class="bg-silver-300">
+<body>
     <div class="content mt-5">
         <div class="brand">
             <img src="<?php echo ASSETS_ADMIN_URL; ?>/img/logo.png" alt="logo"  class="logo-img">

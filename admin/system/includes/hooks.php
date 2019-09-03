@@ -19,7 +19,7 @@ add_hook('left_sidebar_begin', function(){
     \system\admin\Page::getInstance()->menus = [
         [
             'id'=>'heading',
-            'name' => 'NAVIGATION'
+            'name' => '<span class="fa fa-bars"></span> NAVIGATION'
         ],
         [
             'id' => 'dashboard',
@@ -47,6 +47,23 @@ add_hook('left_sidebar_begin', function(){
                     'name' => '单页管理',
                     'url' => url_for('/node/page.php')
                 ],
+            ]
+        ],
+        [
+            'id' => 'node',
+            'name' => '产品管理',
+            'icon' => 'fa fa-clone',
+            'sub' => [
+                [
+                    'id' => 'product.index',
+                    'name' => '产品管理',
+                    'url' => url_for('/product/index.php')
+                ],
+                [
+                    'id' => 'product.category',
+                    'name' => '分类',
+                    'url' => url_for('/product/category.php')
+                ]
             ]
         ],
         [

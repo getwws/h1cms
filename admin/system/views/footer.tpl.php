@@ -24,11 +24,11 @@
 <?php echo $this->printJS('footer'); ?>
 <?php do_hooks('footer'); ?>
 <script type="application/javascript">
-    if (typeof page_end == 'function') {
-        page_end();
-    }
-    $(document).ready(function(){
 
+    $(document).ready(function(){
+        if (typeof page_end == 'function') {
+            page_end();
+        }
     });
 </script>
         <?php if(DEBUG){ echo page()->phpdebugbar->getJavascriptRenderer()->render(); } ?>

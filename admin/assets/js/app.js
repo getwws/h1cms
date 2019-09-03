@@ -222,26 +222,18 @@ function loadCSS(cssFile, callback) {
 
 }
 
-function sendFile(file, url, editor) {
+function sendFile(file, _url, editor) {
     var data = new FormData();
     data.append("file", file);
-    var request = new XMLHttpRequest();
-    request.open('POST', url, true);
-    request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var resp = request.responseText;
-            editor.summernote('insertImage', resp);
-            console.log(resp);
-        } else {
-            // We reached our target server, but it returned an error
-            var resp = request.responseText;
-            swal(resp,'','error');
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: _url,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(url) {
+            editor.summernote('editor.insertImage',url);
         }
-    };
-    request.onerror = function (jqXHR, textStatus, errorThrown) {
-        // There was a connection error of some sort
-        console.log(jqXHR);
-    };
-    request.send(data);
+    });
 }

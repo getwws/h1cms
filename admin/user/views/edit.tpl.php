@@ -4,7 +4,7 @@
 get_header();
 add_breadcrumb('用户管理', url_for('/user/index.php'), '');
 ?>
-<form action="" method="post" class="jquery-validate-form jq-validate form-horizontal">
+<form action="" method="post" class="jq-validate jq-validate form-horizontal">
     <div class="page-header">
         <div class="container-fluid">
             <div class="pull-right">

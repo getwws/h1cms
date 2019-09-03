@@ -18,7 +18,7 @@ function indexPOST()
             //文件扩展
             $imageFileType = strtolower(pathinfo($orign_filename, PATHINFO_EXTENSION));
             //存储的文件名
-            $name = ifOr($rand_or_orign == 'rand', \system\UUID::uuid4(), $orign_filename);
+            $name = ifOr($rand_or_orign == 'rand', \getw\UUID::uuid4(), $orign_filename);
             $filename = $name . '.' . $imageFileType;
             $date = date('Ymd');
             $fullName = '/' . $date . '/' . $filename;
@@ -35,7 +35,10 @@ function indexPOST()
                 }
             }
 
-            $baseurl = get_option('upload.baseurl', BASE_URL. '/storage/upload/images/');
+            $baseurl = get_option('upload.baseurl');
+            if(empty($baseurl)){
+                $baseurl = BASE_URL. '/storage/upload/images/';
+            }
             $location = $_FILES["file"]["tmp_name"];
             move_uploaded_file($location, $destination . $filename);
             echo rtrim($baseurl,'/') . $fullName;//change this URL

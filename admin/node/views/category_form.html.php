@@ -4,6 +4,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
 add_breadcrumb('分类管理', url_for('/node/'), '');
 ?>
 <?php get_header(); ?>
+<form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -22,7 +23,7 @@ add_breadcrumb('分类管理', url_for('/node/'), '');
         </ol>
     </div>
 </div>
-<form action="" method="post" class="jquery-validate-form  form-horizontal">
+
 
 
     <div class="ibox ibox-default">

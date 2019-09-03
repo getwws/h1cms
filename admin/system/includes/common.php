@@ -109,8 +109,11 @@ function register_assets_plugins($name , $callback = null)
             add_css('vendor/flatpickr/flatpickr.min.css', 'header', ASSETS_URL);
             add_js('vendor/flatpickr/flatpickr.min.js', 'footer', ASSETS_URL);
             break;
+        case 'bootstrap-datepicker':
+            add_css('vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css', 'header', ASSETS_URL);
+            add_js('vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js', 'footer', ASSETS_URL);
+            break;
         case 'jquery-validation':
-
             add_js('vendor/jquery-validation/jquery.validate.js', 'footer', ASSETS_URL);
             add_js('js/jqvalidate.methods.js', 'footer', ASSETS_ADMIN_URL);
             break;
@@ -118,13 +121,24 @@ function register_assets_plugins($name , $callback = null)
             add_css('vendor/summernote/summernote-bs4.css', 'header', ASSETS_URL);
             add_js('vendor/summernote/summernote-bs4.js', 'footer', ASSETS_URL);
             break;
+        case 'wangeditor':
+            add_css('vendor/wangeditor/wangEditor.min.css', 'header', ASSETS_URL);
+            add_js('vendor/wangeditor/wangEditor.min.js', 'footer', ASSETS_URL);
+            break;
         case 'font-awesome':
             add_css('vendor/font-awesome/css/font-awesome.min.css', 'header', ASSETS_URL);
             break;
         case 'themify-icons':
             add_css('vendor/themify-icons/css/themify-icons.css', 'header', ASSETS_URL);
             break;
+        case 'placeholder':
+            add_js('js/placeholder.min.js', 'footer', ASSETS_URL);
+            break;
     }
+}
+
+function page_dump($msg, $label = 'info', $isString = true){
+    page()->dump($msg, $label, $isString);
 }
 
 

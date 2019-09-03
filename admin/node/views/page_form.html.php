@@ -7,6 +7,7 @@ register_assets_plugins('summernote');
 register_assets_plugins('flatpickr');
 ?>
 <?php get_header(); ?>
+<form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -25,7 +26,7 @@ register_assets_plugins('flatpickr');
     </div>
 </div>
 
-<form action="" method="post" class="jquery-validate-form form-horizontal">
+
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox ibox-default">
@@ -162,15 +163,18 @@ register_assets_plugins('flatpickr');
                 locale: "zh"
             });
         });
+
+
+
+    });
+    function page_end(){
         //validator
-        jquery_validator(
-            {
+        jquery_validator({
                 'language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]': {
                     required: true,
                     minlength: 1
                 }
-            },
-            {
+            },{
                 'language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]': {
                     required: '请输入文章标题',
                     minlength: '请输入文章标题'
@@ -179,9 +183,7 @@ register_assets_plugins('flatpickr');
                 form.submit();
             }
         );
-
-
-    });
+    }
 
 </script>
 <?php get_footer(); ?>

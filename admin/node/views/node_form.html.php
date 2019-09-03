@@ -10,6 +10,7 @@ register_assets_plugins('themify-icons');
 <?php get_header();
 add_breadcrumb('文章管理', url_for('/node/'), '');
 ?>
+<form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
@@ -27,7 +28,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
         </ol>
     </div>
 </div>
-<form action="" method="post" class="jquery-validate-form form-horizontal">
+
 
 
     <div class="row">
@@ -58,7 +59,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="language-title"
                                            name="language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]"
-                                           value="<?php echo $language->title; ?>" placeholder="请输入分类名称">
+                                           value="<?php echo $language->title; ?>" placeholder="请输入文章标题">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -185,7 +186,7 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
             lang: 'zh-CN',
             height: "300px",
             callbacks: {
-                onImageUpload: function (files) {
+                onImageUpload: function (files, editor, welEditable) {
                     url = $(this).data('upload'); //path is defined as data attribute for  textarea
                     sendFile(files[0], url, $(this));
                 }
