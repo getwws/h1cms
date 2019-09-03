@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2019-07-25 15:20:22
+-- 生成日期： 2019-09-03 16:06:33
 -- 服务器版本： 10.3.16-MariaDB
 -- PHP 版本： 7.3.7
 
@@ -140,7 +140,7 @@ INSERT INTO `h_node` (`node_id`, `author`, `node_date`, `node_status`, `comment_
 (1, 1, 1481410906, 'publish', 'open', 'node', 'html', 0, 0, 1481410906, 1481410906),
 (5, 1, 1516241100, 'publish', 'open', 'node', 'html', 0, 0, 1516241138, 1520903990),
 (6, 1, 1523355720, 'publish', 'open', 'page', 'html', 0, 0, 1523355783, 1523355783),
-(7, 1, 1523357580, 'publish', 'open', 'page', 'html', 0, 0, 1523357621, 1523412301);
+(7, 1, 1523357580, 'publish', 'open', 'page', 'html', 0, 0, 1523357621, 1567069353);
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ INSERT INTO `h_node_language` (`node_id`, `language_id`, `title`, `content`, `me
 (1, 1, '中文测试!!!', '<h1>\r\n	通知\r\n</h1>\r\n<p>\r\n	测试\r\n</p>', '测试', ''),
 (5, 1, 'test', '<p>test</p>', NULL, NULL),
 (6, 1, 'test', '<p>test</p>', NULL, NULL),
-(7, 1, 'Hello Page', '<p>This test page<img src=\"http://127.0.0.1/h1cms/storage/upload/images/20180411/21c7dc19-d0fa-45d4-a14f-2f406f92bc6d.png\" style=\"width: 89px;\"></p>', NULL, NULL);
+(7, 1, 'Hello Page', '<p>This test page</p>', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -314,6 +314,163 @@ INSERT INTO `h_options` (`option_group`, `option_name`, `option_value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `h_product`
+--
+
+CREATE TABLE `h_product` (
+  `node_id` bigint(20) UNSIGNED NOT NULL,
+  `author` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `node_date` int(11) UNSIGNED DEFAULT NULL,
+  `node_status` varchar(20) NOT NULL DEFAULT 'publish',
+  `comment_status` varchar(20) NOT NULL DEFAULT 'open',
+  `node_type` varchar(20) NOT NULL DEFAULT 'node',
+  `content_type` varchar(20) DEFAULT 'html',
+  `image` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '主图',
+  `comment_count` bigint(20) NOT NULL DEFAULT 0,
+  `click_count` int(11) DEFAULT 0,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- 转存表中的数据 `h_product`
+--
+
+INSERT INTO `h_product` (`node_id`, `author`, `node_date`, `node_status`, `comment_status`, `node_type`, `content_type`, `image`, `comment_count`, `click_count`, `created_at`, `updated_at`) VALUES
+(2, 1, 1567396440, 'publish', 'open', 'node', 'html', NULL, 0, 0, 1567396502, 1567396681);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_category`
+--
+
+CREATE TABLE `h_product_category` (
+  `category_id` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `path` varchar(255) DEFAULT NULL,
+  `level` smallint(5) UNSIGNED DEFAULT 0,
+  `count` int(11) DEFAULT 0,
+  `sort_order` smallint(6) DEFAULT 0,
+  `created_at` int(11) UNSIGNED DEFAULT NULL,
+  `updated_at` int(11) UNSIGNED DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- 转存表中的数据 `h_product_category`
+--
+
+INSERT INTO `h_product_category` (`category_id`, `image`, `parent_id`, `path`, `level`, `count`, `sort_order`, `created_at`, `updated_at`, `status`) VALUES
+(1, NULL, 0, '1', 0, 0, 0, 1567392472, 1567392472, 1),
+(2, NULL, 0, '2', 0, 0, 0, 1567392499, 1567392499, 1),
+(3, NULL, 0, '3', 0, 0, 0, 1567392509, 1567392509, 1),
+(4, NULL, 3, '3,4', 1, 0, 0, 1567392529, 1567392529, 1),
+(5, NULL, 3, '3,5', 1, 0, 0, 1567392538, 1567392538, 1),
+(6, NULL, 1, '6', 0, 0, 3, 1567392581, 1567392628, 1),
+(7, NULL, 1, '1,7', 1, 0, 0, 1567392589, 1567392589, 1),
+(8, NULL, 1, '8', 0, 0, 0, 1567392605, 1567392623, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_category_language`
+--
+
+CREATE TABLE `h_product_category_language` (
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  `language_id` int(11) NOT NULL DEFAULT 1,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `meta_keywords` varchar(255) DEFAULT NULL,
+  `meta_description` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- 转存表中的数据 `h_product_category_language`
+--
+
+INSERT INTO `h_product_category_language` (`category_id`, `language_id`, `title`, `description`, `meta_keywords`, `meta_description`) VALUES
+(1, 1, '家具电器', '', NULL, NULL),
+(2, 1, '手机数码', '', NULL, NULL),
+(3, 1, '电脑办公', '', NULL, NULL),
+(4, 1, '电脑整机', '', NULL, NULL),
+(5, 1, '电脑配件', '', NULL, NULL),
+(6, 1, '电视', '', NULL, NULL),
+(7, 1, '空调', '', NULL, NULL),
+(8, 1, '洗衣机', '', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_image`
+--
+
+CREATE TABLE `h_product_image` (
+  `product_image_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `sort_order` smallint(6) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_language`
+--
+
+CREATE TABLE `h_product_language` (
+  `node_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT 1,
+  `title` varchar(255) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `meta_keywords` varchar(255) DEFAULT NULL,
+  `meta_description` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- 转存表中的数据 `h_product_language`
+--
+
+INSERT INTO `h_product_language` (`node_id`, `language_id`, `title`, `content`, `meta_keywords`, `meta_description`) VALUES
+(2, 1, 'iPhone XR', '<p>iPhone XR<br></p>', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_meta`
+--
+
+CREATE TABLE `h_product_meta` (
+  `meta_id` bigint(20) UNSIGNED NOT NULL,
+  `node_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_product_relationships`
+--
+
+CREATE TABLE `h_product_relationships` (
+  `node_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `term_order` int(9) UNSIGNED DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `h_product_relationships`
+--
+
+INSERT INTO `h_product_relationships` (`node_id`, `category_id`, `term_order`) VALUES
+(2, 2, 0);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `h_roles`
 --
 
@@ -377,7 +534,7 @@ CREATE TABLE `h_users` (
 --
 
 INSERT INTO `h_users` (`id`, `email`, `username`, `password`, `created_at`, `updated_at`, `status`, `display_name`, `avatar`, `private_notes`, `lasttime`, `lastip`) VALUES
-(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Allen', NULL, NULL, 1564039537, '127.0.0.1'),
+(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Allen', NULL, NULL, 1567475085, '127.0.0.1'),
 (3, '83390286@qq.com', 'hmvc', '$2y$10$5dFoGFfmx19LoJ5rxfx1bOsb7jU8uZoku.ujMu16j2FFusSl4cj3u', 0, 0, 1, 'hmvc', NULL, NULL, 1515419055, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -491,6 +648,48 @@ ALTER TABLE `h_options`
   ADD UNIQUE KEY `unique_gn` (`option_group`,`option_name`);
 
 --
+-- 表的索引 `h_product`
+--
+ALTER TABLE `h_product`
+  ADD PRIMARY KEY (`node_id`),
+  ADD KEY `node_author` (`author`),
+  ADD KEY `type_status_date` (`node_type`,`node_status`,`node_date`,`node_id`);
+
+--
+-- 表的索引 `h_product_category`
+--
+ALTER TABLE `h_product_category`
+  ADD PRIMARY KEY (`category_id`);
+
+--
+-- 表的索引 `h_product_image`
+--
+ALTER TABLE `h_product_image`
+  ADD PRIMARY KEY (`product_image_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- 表的索引 `h_product_language`
+--
+ALTER TABLE `h_product_language`
+  ADD PRIMARY KEY (`node_id`,`language_id`);
+
+--
+-- 表的索引 `h_product_meta`
+--
+ALTER TABLE `h_product_meta`
+  ADD PRIMARY KEY (`meta_id`),
+  ADD KEY `meta_key` (`meta_key`(191)),
+  ADD KEY `post_id` (`node_id`);
+
+--
+-- 表的索引 `h_product_relationships`
+--
+ALTER TABLE `h_product_relationships`
+  ADD PRIMARY KEY (`node_id`,`category_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
 -- 表的索引 `h_roles`
 --
 ALTER TABLE `h_roles`
@@ -561,6 +760,30 @@ ALTER TABLE `h_node_category`
 --
 ALTER TABLE `h_node_meta`
   MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- 使用表AUTO_INCREMENT `h_product`
+--
+ALTER TABLE `h_product`
+  MODIFY `node_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- 使用表AUTO_INCREMENT `h_product_category`
+--
+ALTER TABLE `h_product_category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- 使用表AUTO_INCREMENT `h_product_image`
+--
+ALTER TABLE `h_product_image`
+  MODIFY `product_image_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `h_product_meta`
+--
+ALTER TABLE `h_product_meta`
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `h_roles`
