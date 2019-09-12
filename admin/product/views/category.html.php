@@ -1,5 +1,5 @@
 <?php get_header();
-add_breadcrumb('文章管理', url_for('/product/'), '');
+add_breadcrumb('产品管理', url_for('/product/'), '');
 add_breadcrumb('分类管理', url_for('/product/'), '');
 ?>
 <div class="page-header">
@@ -72,7 +72,7 @@ add_breadcrumb('分类管理', url_for('/product/'), '');
                         }
                     }
 
-                } //END printtable
+                }//END printtable
                 printtable($categories, 0, []);
                 ?>
                 </tbody>

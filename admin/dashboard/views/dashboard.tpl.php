@@ -16,7 +16,7 @@
                     <a class="btn btn-default" href="<?php echo url_for('/node/category.php'); ?>">
                         <i class="fa fa-list-alt"></i> <?php echo __('分类管理'); ?>
                     </a>
-                    <a class="btn btn-default" href="<?php echo url_for('/products/'); ?>">
+                    <a class="btn btn-default" href="<?php echo url_for('/product/'); ?>">
                         <i class="fa fa-cubes"></i> <?php echo __('产品管理'); ?>
                     </a>
                     <a class="btn btn-default" href="<?php echo url_for('/user/'); ?>">

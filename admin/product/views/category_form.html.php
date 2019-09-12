@@ -1,6 +1,6 @@
 <?php
 register_assets_plugins('jquery-validation');
-add_breadcrumb('文章管理', url_for('/product/'), '');
+add_breadcrumb('产品管理', url_for('/product/'), '');
 add_breadcrumb('分类管理', url_for('/product/'), '');
 ?>
 <?php get_header(); ?>

@@ -8,6 +8,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.9",
+    "ext-gd": "*",
     "getwws/getw": "dev-master",
     "maximebf/debugbar": "1.15.0",
     "mustache/mustache": "*",

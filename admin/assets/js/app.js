@@ -1,26 +1,60 @@
 
 var APP = function() {
-
-    // PATHS
-    // ======================
-    //this.ASSETS_PATH = '../../assets/';
-    this.ASSETS_PATH = './assets/';
-    this.SERVER_PATH = this.ASSETS_PATH + 'demo/server/';
-
-    // GLOBAL HELPERS
-    // ======================
+    // 触摸设备
 	this.is_touch_device = function() {
         return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
 	};
+
+	this.create_modal = function(_title,_name , _modal_tpl){
+        if($('#'+_name).length){
+            return;
+        }
+        if(typeof _modal_tpl == 'undefined'){
+            _modal_tpl = '';
+        }
+        var tmpl_html = '<div class="modal " id="'+_name+'" tabindex="-1" role="dialog" aria-labelledby="'+_name+'Label" aria-hidden="true">'
+                +'<div class="modal-dialog" role="document">'
+                +'<div class="modal-content">'
+                +'<div class="modal-header">'
+            +'<h5 class="modal-title" id="'+_name+'Label">'+_title+'</h5>'
+            +'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
+            +'<span aria-hidden="true">&times;</span>'
+            +'</button>'
+            +'</div>'
+            + _modal_tpl
+            +'</div>'
+            +'</div>'
+            +'</div>';
+        $('body').append(tmpl_html);
+    };
+    this.create_basemodal = function(_title,_name , _modal_tpl){
+        if($('#'+_name).length){
+            return;
+        }
+        if(typeof _modal_tpl == 'undefined'){
+            _modal_tpl = '';
+        }
+        var tmpl_html = '<div class="modal " id="'+_name+'" tabindex="-1" role="dialog" aria-labelledby="'+_name+'Label" aria-hidden="true">'
+            +'</div>';
+        $('body').append(tmpl_html);
+    };
+    this.image_manager = function(){
+        APP.create_basemodal('图片管理','image_filemangent');
+        $("#image_filemangent").on('show.bs.modal', function (e) {
+            var targetname = $(e.relatedTarget).data('targetname');
+            var thumb = $(e.relatedTarget).data('thumb');
+            $.get(ADMIN_BASEURL + '/filemanager/dialog.php',{modal:'image_filemangent',target:targetname,thumb:thumb,path:''},function(data){
+                $("#image_filemangent").html(data);
+            });
+        });
+    }
 };
 
 var APP = new APP();
 
-// APP UI SETTINGS
-// ======================
-
 APP.UI = {
-	scrollTop: 0, // Minimal scrolling to show scrollTop button
+    baseUrl:'',
+	scrollTop: 0,
 };
 
 // Hide sidebar on small screen
@@ -125,10 +159,6 @@ $(function () {
     }
 
 });
-
-
-
-//== VENDOR PLUGINS OPTIONS
 
 $(function () {
     

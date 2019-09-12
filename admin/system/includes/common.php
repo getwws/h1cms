@@ -134,6 +134,9 @@ function register_assets_plugins($name , $callback = null)
         case 'placeholder':
             add_js('js/placeholder.min.js', 'footer', ASSETS_URL);
             break;
+        case 'dropzonejs':
+            add_js('js/dropzone.js', 'footer', ASSETS_URL);
+            break;
     }
 }
 

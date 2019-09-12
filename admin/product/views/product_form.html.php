@@ -6,7 +6,8 @@ register_assets_plugins('jquery-validation');
 register_assets_plugins('summernote');
 register_assets_plugins('flatpickr');
 register_assets_plugins('placeholder');
-//register_assets_plugins('themify-icons');
+register_assets_plugins('dropzonejs');
+register_assets_plugins('themify-icons');
 
 ?>
 <?php get_header();
@@ -178,102 +179,55 @@ add_breadcrumb('产品管理', url_for('/product/'), '');
                             </div>
                         </div>
                         <div class="tab-pane p-10" id="tab-image" role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <td class="text-left">产品主图</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-left">
-                                            <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail" data-original-title="" title="">
-                                                <img src="https://demo.opencart.com/image/cache/catalog/demo/apple_cinema_30-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
-                                            <input type="hidden" name="product_image" value="catalog/demo/apple_cinema_30.jpg" id="input-image">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+
                             <div class="table-responsive">
                                 <table id="images" class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <td class="text-left">Additional Images</td>
-                                        <td class="text-right">Sort Order</td>
+                                        <td class="text-left">产品图片</td>
+                                        <td class="text-right">排序</td>
                                         <td></td>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr id="image-row0">
-                                        <td class="text-left"><a href="" id="thumb-image0" data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/catalog/demo/canon_logo-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
+                                        <td class="text-left">
+                                            <a href="" id="thumb-image0" data-toggle="image" >
+                                                <img src="https://demo.opencart.com/image/cache/catalog/demo/canon_logo-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png" class="img-thumbnail"></a>
                                             <input type="hidden" name="product_image[0][image]" value="catalog/demo/canon_logo.jpg" id="input-image0"></td>
                                         <td class="text-right"><input type="text" name="product_image[0][sort_order]" value="0" placeholder="Sort Order" class="form-control"></td>
                                         <td class="text-left"><button type="button" onclick="$('#image-row0').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
                                     </tr>
                                     <tr id="image-row1">
-                                        <td class="text-left"><a href="" id="thumb-image1" data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/catalog/demo/hp_1-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
+                                        <td class="text-left"><a href="" id="thumb-image1" data-toggle="image" ><img src="https://demo.opencart.com/image/cache/catalog/demo/hp_1-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png" class="img-thumbnail"></a>
                                             <input type="hidden" name="product_image[1][image]" value="catalog/demo/hp_1.jpg" id="input-image1"></td>
                                         <td class="text-right"><input type="text" name="product_image[1][sort_order]" value="0" placeholder="Sort Order" class="form-control"></td>
                                         <td class="text-left"><button type="button" onclick="$('#image-row1').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
                                     </tr>
-                                    <tr id="image-row2">
-                                        <td class="text-left"><a href="" id="thumb-image2" data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/catalog/demo/compaq_presario-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
-                                            <input type="hidden" name="product_image[2][image]" value="catalog/demo/compaq_presario.jpg" id="input-image2"></td>
-                                        <td class="text-right"><input type="text" name="product_image[2][sort_order]" value="0" placeholder="Sort Order" class="form-control"></td>
-                                        <td class="text-left"><button type="button" onclick="$('#image-row2').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
-                                    </tr>
-                                    <tr id="image-row3">
-                                        <td class="text-left"><a href="" id="thumb-image3" data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/catalog/demo/canon_eos_5d_1-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
-                                            <input type="hidden" name="product_image[3][image]" value="catalog/demo/canon_eos_5d_1.jpg" id="input-image3"></td>
-                                        <td class="text-right"><input type="text" name="product_image[3][sort_order]" value="0" placeholder="Sort Order" class="form-control"></td>
-                                        <td class="text-left"><button type="button" onclick="$('#image-row3').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
-                                    </tr>
-                                    <tr id="image-row4">
-                                        <td class="text-left"><a href="" id="thumb-image4" data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/catalog/demo/canon_eos_5d_2-100x100.jpg" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"></a>
-                                            <input type="hidden" name="product_image[4][image]" value="catalog/demo/canon_eos_5d_2.jpg" id="input-image4"></td>
-                                        <td class="text-right"><input type="text" name="product_image[4][sort_order]" value="0" placeholder="Sort Order" class="form-control"></td>
-                                        <td class="text-left"><button type="button" onclick="$('#image-row4').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-minus-circle"></i></button></td>
-                                    </tr>
+
+
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="2"></td>
-                                        <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add Image"><i class="fa fa-plus-circle"></i></button></td>
+
+                                        <td colspan="3" class="text-center">
+                                            <div id="previews" class="dropzone-previews"></div>
+                                            <button type="button" class="btn btn-success" id="upload_file"><i class="fa fa-cloud-upload"></i> 上传文件</button>
+                                            <button class="btn btn-default"><i class="fa fa-search"></i> 从库中选择文件</button>
+
+                                        </td>
+
                                     </tr>
                                     </tfoot>
                                 </table>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-targetname="product_image[1][sort_order]" data-thumb="product_image[0][sort_order]" data-target="#image_filemangent">
+                                    Launch demo modal
+                                </button>
+
+
                             </div>
-                            <div class="d-flex">
-                                <div class="card m-r-20 m-b-20">
-                                    <div>
-                                        <img class="card-img-top file-image" src="<?php echo ADMIN_BASE_URL ?>/assets/img/140x140.png">
-                                    </div>
-                                    <div class="card-body">
-                                        <span>storm.jpg</span>
-                                        <a class="btn btn-default btn-xs float-right" href="javascript:;"><i class="fa fa-download"></i></a>
-                                    </div>
-                                </div>
-                                <div class="card m-r-20 m-b-20">
-                                    <div>
-                                        <img class="card-img-top file-image" src="<?php echo ADMIN_BASE_URL ?>/assets/img/" onerror="this.src=placeholder.getData({size: '140x140',bgcolor:'#ccc',color:'#aaa'})">
-                                    </div>
-                                    <div class="card-body">
-                                        <span>horse.jpg</span>
-                                        <a class="btn btn-default btn-xs float-right" href="javascript:;"><i class="fa fa-download"></i></a>
-                                    </div>
-                                </div>
-                                <div class="card m-r-20 m-b-20">
-                                    <div>
-                                        <img class="card-img-top file-image placeholder" options="size=140x140&bgcolor=#ccc&color=#aaa" src="<?php echo ADMIN_BASE_URL ?>/assets/img/140x140.png">
-                                    </div>
-                                    <div class="card-body">
-                                        <span>documen</span>
-                                        <a class="btn btn-default btn-xs float-right" href="javascript:;"><i class="fa fa-download"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -287,9 +241,18 @@ add_breadcrumb('产品管理', url_for('/product/'), '');
 
 
 <script>
+
+
     $(function () {
         //editor
-        $.summernote.options.toolbar.push(['style', ['add-text-tags']]);
+        APP.image_manager();
+        var myDropzone = new Dropzone("#upload_file", {
+            url: "<?php echo url_for('/filemanager/upload.php?action=product_upload'); ?>",
+            uploadMultiple:true,
+            maxFiles:5,
+            previewsContainer: "#previews",
+        });
+
         $('#language-content-<?php echo H_DEFAULT_LANGUAGE; ?>').summernote({
             lang: 'zh-CN',
             height: "300px",
@@ -300,23 +263,22 @@ add_breadcrumb('产品管理', url_for('/product/'), '');
                 }
             }
         });
-        $(function () {
-            $('.ui-datetimepicker').flatpickr({
-                enableTime: true,
-                altInput: true,
-                altFormat: "Y-m-d H:i",
-                dateFormat: "Y-m-d H:i",
-                locale: "zh"
-            });
+
+        $('.ui-datetimepicker').flatpickr({
+            enableTime: true,
+            altInput: true,
+            altFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d H:i",
+            locale: "zh"
         });
+
         //validator
         jquery_validator({
                 'language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]': {
                     required: true,
                     minlength: 1
                 }
-            },
-            {
+            },{
                 'language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]': {
                     required: '请输入文章标题',
                     minlength: '请输入文章标题'
@@ -327,7 +289,20 @@ add_breadcrumb('产品管理', url_for('/product/'), '');
         );
 
 
-    });
+        });
+    var product_image_row = 0;
+    function addImage(){
+        html  = '<tr id="product-image-row' + product_image_row + '">';
+        html += '  <td class="text-left"><a href="" id="thumb-image' + product_image_row + '"data-toggle="image" class="img-thumbnail"><img src="https://demo.opencart.com/image/cache/no_image-100x100.png" alt="" title="" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png" /></a><input type="hidden" name="product_image[' + product_image_row + '][image]" value="" id="input-image' + product_image_row + '" /></td>';
+        html += '  <td class="text-right"><input type="text" name="product_image[' + product_image_row + '][sort_order]" value="" placeholder="Sort Order" class="form-control" /></td>';
+        html += '  <td class="text-left"><button type="button" onclick="$(\'#product-image-row' + product_image_row  + '\').remove();" data-toggle="tooltip" title="Remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+        html += '</tr>';
 
-</script>
-<?php get_footer(); ?>
+        $('#images tbody').append(html);
+
+        product_image_row++;
+
+    }
+
+    </script>
+    <?php get_footer(); ?>

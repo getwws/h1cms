@@ -15,6 +15,7 @@
     <?php echo $this->printCSS('header'); ?>
     <?php echo $this->printJS('header'); ?>
     <?php do_hooks('header'); ?>
+    <script>var ADMIN_BASEURL='<?php echo ADMIN_BASE_URL ?>';</script>
     <?php if(DEBUG){ echo page()->phpdebugbar->getJavascriptRenderer()->renderHead(); } ?>
 </head>
 <body class="fixed-navbar fixed-layout">
