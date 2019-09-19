@@ -86,7 +86,7 @@
                     <h2 class="login-title">登录</h2>
                 <div class="form-group <?php echo ifOr(form_has_error('username'), 'has-error'); ?>">
 <!--                    <label for="username">用户名</label>-->
-                    <div class="input-group-icon right">
+                    <div class="input-group-icon">
                         <div class="input-icon"><i class="fa fa-envelope"></i></div>
                         <input id="username" name="username" type="text" placeholder="用户名" autocomplete="off"
                                class="form-control">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="form-group <?php echo ifOr(form_has_error('password'), 'has-error'); ?>">
 <!--                    <label for="password">密码</label>-->
-                    <div class="input-group-icon right">
+                    <div class="input-group-icon">
                         <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
                         <input id="password" name="password" type="password" placeholder="密码"
                                class="form-control">
