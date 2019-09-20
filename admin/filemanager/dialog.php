@@ -9,6 +9,7 @@ function indexAction(){
     $page = input('page',1);
     $thumb = input('thumb','');
     $target = input('target','');
+    $selected = input('selected','fm_selected');
     $modal = input('modal','');
     $path = input('path','/');
     $path = trim($path,"\\\/\.");
@@ -77,7 +78,8 @@ function indexAction(){
         'parent_path'=>dirname($path),
         'path'=>$path,
         'thumb'=>$thumb,
-        'target'=>$target
+        'target'=>$target,
+        'selected'=>$selected
     ]);
 }
 

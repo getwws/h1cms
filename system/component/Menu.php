@@ -1,24 +1,27 @@
 <?php
 
-namespace system\admin;
+namespace system\component;
 
+use getw\DB;
 use getw\Singleton;
 use system\admin\Page;
 
 /**
  * Class Menu
- * @package system\admin
+ * @package system\component
  */
 class Menu
 {
     public $table;
     public $language_table;
-    public $primaryKey = 'category_id';
+    public $group_table;
+    public $primaryKey = 'menu_id';
 
-    public function __construct($table = 'category', $language_table = 'category_language', $primaryKey = 'category_id')
+    public function __construct($table = 'menu', $language_table = 'menu_language',$group_table='menu_group', $primaryKey = 'menu_id')
     {
         $this->table = $table;
         $this->language_table = $language_table;
+        $this->group_table = $group_table;
         $this->primaryKey = $primaryKey;
     }
 
@@ -50,11 +53,26 @@ class Menu
     /**
      * 仅删除当前分类
      * @param $id
+     * @throws \Exception
      */
     public function remove($id)
     {
         db_delete($this->table, [$this->primaryKey => $id]);
         db_delete($this->language_table, [$this->primaryKey => $id]);
+    }
+
+    /**
+     * 根据分组删除
+     * @param $id
+     * @throws \Exception
+     */
+    public function removeByGroupId($id)
+    {
+        $all_menu_ids = db_fetchCol("select menu_id from {{$this->table}} where group_id={$id}");
+//        db_delete($this->table, ['group_id' => $id]);
+//        db_delete($this->group_table, ['menu_group_id' => $id]);
+
+        DB::table($this->language_table)->whereIn('menu_id',$all_menu_ids)->delete();
     }
 
 
@@ -69,12 +87,12 @@ class Menu
         $category['updated_at'] = time();
         $category_id = db_insert($this->table, $category);
         if ($category['parent_id'] === 0) {
-            db_update($this->table, ['path' => $category_id], ['category_id' => $category_id]);
+            db_update($this->table, ['path' => $category_id], ['menu_id' => $category_id]);
         } else if ($category['parent_id'] !== 0) {
-            $parent = db_fetch("select * from {{$this->table}} where {$this->primaryKey}=:category_id", ['category_id' => $category['parent_id']]);
-            db_update($this->table, ['level' => $parent->level + 1, 'path' => "{$parent->path},{$category_id}"], ['category_id' => $category_id]);
+            $parent = db_fetch("select * from {{$this->table}} where {$this->primaryKey}=:menu_id", ['menu_id' => $category['parent_id']]);
+            db_update($this->table, ['level' => $parent->level + 1, 'path' => "{$parent->path},{$category_id}"], ['menu_id' => $category_id]);
         }
-        $language['category_id'] = $category_id;
+        $language['menu_id'] = $category_id;
         $language['language_id'] = H_DEFAULT_LANGUAGE;
         db_insert($this->language_table, $language);
         return true;
@@ -93,7 +111,7 @@ class Menu
         $category['path'] = "$category_id";
         //修改上级分类
         if ($category['parent_id'] != $category_model->parent_id) {
-            $parent = db_fetch("select * from {{$this->table}} where category_id=:category_id", ['category_id' => $category['parent_id']]);
+            $parent = db_fetch("select * from {{$this->table}} where menu_id=:menu_id", ['menu_id' => $category['parent_id']]);
             if (!$parent) {
                 $category['level'] = 0;
                 $category['path'] = $category_id;
@@ -104,14 +122,14 @@ class Menu
             //修改分类下面的子类
             $subs_category = db_fetchAll("select * from {{$this->table}} where path like '{$category_model->path},%'");
             foreach ($subs_category as $cat) {
-                db_update($this->table, ['path' => str_ireplace("{$category_model->path},", "{$category['path']},", $cat->path)], ['category_id' => $cat->category_id]);
+                db_update($this->table, ['path' => str_ireplace("{$category_model->path},", "{$category['path']},", $cat->path)], ['menu_id' => $cat->menu_id]);
             }
         }
         $category['updated_at'] = time();
-        db_update($this->table, $category, ['category_id' => $category_id]);
-        $language['category_id'] = $category_id;
+        db_update($this->table, $category, ['menu_id' => $category_id]);
+        $language['menu_id'] = $category_id;
         $language['language_id'] = H_DEFAULT_LANGUAGE;
-        db_update($this->language_table, $language, ['category_id' => $category_id, 'language_id' => H_DEFAULT_LANGUAGE]);
+        db_update($this->language_table, $language, ['menu_id' => $category_id, 'language_id' => H_DEFAULT_LANGUAGE]);
         return true;
     }
 
@@ -120,28 +138,28 @@ class Menu
      * @param $category_id
      * @return null
      */
-    public function removeCategory($category_id)
+    public function removeMenu($category_id)
     {
         $category_model = $this->getCategoryById($category_id);
         if ($category_id == 0 || !$category_model) {
             return NULL;
         }
-        db_delete($this->table, ['category_id' => $category_id]);
-        db_delete($this->language_table, ['category_id' => $category_id]);
+        db_delete($this->table, ['menu_id' => $category_id]);
+        db_delete($this->language_table, ['menu_id' => $category_id]);
         //修改分类下面的子类
         $subs_category = db_fetchAll("select * from {{$this->table}} where path like '{$category_model->path},%'");
         foreach ($subs_category as $cat) {
-            db_delete($this->table, ['category_id' => $cat->category_id]);
-            db_delete($this->language_table, ['category_id' => $cat->category_id]);
+            db_delete($this->table, ['menu_id' => $cat->category_id]);
+            db_delete($this->language_table, ['menu_id' => $cat->category_id]);
         }
 
     }
 
-    public function getAll()
+    public function getAll($menu_group_id = 0)
     {
         $sql = "select c.*, cd.title,cd.description,cd.language_id
                          from {{$this->table}} c, {{$this->language_table}} cd 
-                         WHERE status=1 and c.category_id = cd.category_id 
+                         WHERE status=1 and group_id={$menu_group_id} and c.menu_id = cd.menu_id 
                          and cd.language_id='" . H_DEFAULT_LANGUAGE . "' 
                          order by parent_id,sort_order asc";
         $query = db_fetchAll($sql);
@@ -159,11 +177,11 @@ class Menu
         return $list;
     }
 
-    public function getList()
+    public function getList($menu_group_id = 0)
     {
         $sql = "select c.*, cd.title,cd.description,cd.language_id
                          from {{$this->table}} c, {{$this->language_table}} cd 
-                         WHERE status=1 and c.category_id = cd.category_id 
+                         WHERE status=1 and group_id={$menu_group_id} and c.menu_id = cd.menu_id 
                          and cd.language_id='" . H_DEFAULT_LANGUAGE . "' 
                          order by parent_id,sort_order asc";
         $query = db_fetchAll($sql);
@@ -175,13 +193,23 @@ class Menu
         do {
             $top_category = array_shift($stack);
             for ($i = 0; $i < count($query); $i++) {
-                if ($query[$i]->parent_id == $top_category['category']->category_id) {
+                if ($query[$i]->parent_id == $top_category['category']->menu_id) {
                     array_unshift($stack, array('category' => $query[$i], 'level' => $top_category['level'] + 1));
                 }
             }
             $html[] = $top_category['category'];
         } while (count($stack) > 0);
         return $html;
+    }
+
+    /**
+     * 获取菜单分组
+     * @return array
+     * @throws \Exception
+     */
+    public function getMenuGroup(){
+        $sql = "select * from {{$this->group_table}}";
+        return db_fetchAll($sql);
     }
 
 

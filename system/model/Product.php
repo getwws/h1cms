@@ -61,6 +61,7 @@ class Product extends ActiveRecord
     /**
      * @param $id
      * @return array
+     * @throws \Exception
      */
     public function getLanguages($id)
     {
@@ -75,6 +76,17 @@ class Product extends ActiveRecord
             $stm->fetchAll(FETCH_OBJ);
         }
         return $stm->fetchObject();
+    }
+
+    /**
+     * 获取所有产品图片
+     * @param $id
+     * @return array
+     * @throws \Exception
+     */
+    public function getProductImages($id)
+    {
+        return db_query('select * from {product_image} where product_id=:product_id', ['product_id' => $id])->fetchAll();
     }
 
     /**
@@ -98,7 +110,16 @@ class Product extends ActiveRecord
 
     public function add($node, $languages, $parent)
     {
+        $data_product_images = input_post('product_image', []);
         try {
+            $image_sort_order = array_column($data_product_images,'sort_order');
+            array_multisort($image_sort_order, SORT_ASC,$data_product_images);
+            //设置主图
+            if(isset($data_product_images[0]) && is_array($data_product_images[0])){
+                $node['image'] = $data_product_images[0]['image'];
+            }else{
+                $node['image'] = '';
+            }
             $node_id = db_insert('product', $node);
             foreach ($languages as $lang_id => $language) {
                 $language['language_id'] = $lang_id;
@@ -113,7 +134,11 @@ class Product extends ActiveRecord
             foreach ($parent as $pid) {
                 db_insert('product_relationships', ['node_id' => $node_id, 'category_id' => $pid]);
             }
-
+            if(is_array($data_product_images)){
+                foreach ($data_product_images as $image_row){
+                    db_insert('product_image', ['product_id' => $node_id, 'image' => $image_row['image'],'sort_order'=>intval($image_row['sort_order'])]);
+                }
+            }
         } catch (\PDOException $exception) {
             db_delete('product', ['node_id' => $node_id]);
             db_delete('product_language', ['node_id' => $node_id]);
@@ -126,10 +151,20 @@ class Product extends ActiveRecord
 
     public function update($node_id, $node, $languages, $parent)
     {
+        $data_product_images = input_post('product_image', []);
         try {
+            $image_sort_order = array_column($data_product_images,'sort_order');
+            array_multisort($image_sort_order, SORT_ASC,$data_product_images);
+            //设置主图
+            if(isset($data_product_images[0]) && is_array($data_product_images[0])){
+                $node['image'] = $data_product_images[0]['image'];
+            }else{
+                $node['image'] = '';
+            }
             db_update('product', $node, ['node_id' => $node_id]);
             db_delete('product_language', ['node_id' => $node_id]);
             db_delete('product_relationships', ['node_id' => $node_id]);
+            db_delete('product_image', ['product_id' => $node_id]);
             foreach ($languages as $lang_id => $language) {
                 $language['language_id'] = $lang_id;
                 $language['node_id'] = $node_id;
@@ -143,7 +178,11 @@ class Product extends ActiveRecord
             foreach ($parent as $pid) {
                 db_insert('product_relationships', ['node_id' => $node_id, 'category_id' => $pid]);
             }
-
+            if(is_array($data_product_images)){
+                foreach ($data_product_images as $image_row){
+                    db_insert('product_image', ['product_id' => $node_id, 'image' => $image_row['image'],'sort_order'=>intval($image_row['sort_order'])]);
+                }
+            }
         } catch (\PDOException $exception) {
             return false;
         }

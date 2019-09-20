@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2019-09-03 16:06:33
+-- 生成日期： 2019-09-20 06:25:26
 -- 服务器版本： 10.3.16-MariaDB
 -- PHP 版本： 7.3.7
 
@@ -59,7 +59,8 @@ CREATE TABLE `h_logs` (
 --
 
 CREATE TABLE `h_menu` (
-  `category_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `group_id` int(11) DEFAULT 0,
   `image` varchar(255) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `path` varchar(255) DEFAULT NULL,
@@ -75,14 +76,35 @@ CREATE TABLE `h_menu` (
 -- 转存表中的数据 `h_menu`
 --
 
-INSERT INTO `h_menu` (`category_id`, `image`, `parent_id`, `path`, `level`, `count`, `sort_order`, `created_at`, `updated_at`, `status`) VALUES
-(1, NULL, 0, '1', 0, 0, 3, 1515306164, 1515306164, 1),
-(2, NULL, 0, '2', 0, 0, 0, 1515306164, 1515306164, 1),
-(20, NULL, 2, '2,20', 1, 0, 0, 1515324913, 1515324913, 1),
-(21, NULL, 2, '2,21', 1, 0, 0, 1515324920, 1515324920, 1),
-(22, NULL, 1, '1,22', 1, 0, 0, 1515324929, 1515324929, 1),
-(23, NULL, 1, '1,23', 1, 0, 0, 1515324935, 1515324935, 1),
-(24, NULL, 1, '1,24', 1, 0, 0, 1515324945, 1515324945, 1);
+INSERT INTO `h_menu` (`menu_id`, `group_id`, `image`, `parent_id`, `path`, `level`, `count`, `sort_order`, `created_at`, `updated_at`, `status`) VALUES
+(1, 0, NULL, 0, '1', 0, 0, 3, 1515306164, 1515306164, 1),
+(2, 0, NULL, 0, '2', 0, 0, 0, 1515306164, 1515306164, 1),
+(20, 0, NULL, 2, '2,20', 1, 0, 0, 1515324913, 1515324913, 1),
+(21, 0, NULL, 2, '2,21', 1, 0, 0, 1515324920, 1515324920, 1),
+(22, 0, NULL, 1, '1,22', 1, 0, 0, 1515324929, 1515324929, 1),
+(23, 0, NULL, 1, '1,23', 1, 0, 0, 1515324935, 1515324935, 1),
+(24, 0, NULL, 1, '1,24', 1, 0, 0, 1515324945, 1515324945, 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `h_menu_group`
+--
+
+CREATE TABLE `h_menu_group` (
+  `menu_group_id` int(11) NOT NULL,
+  `menu_group_name` varchar(255) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `h_menu_group`
+--
+
+INSERT INTO `h_menu_group` (`menu_group_id`, `menu_group_name`, `sort_order`, `created_at`) VALUES
+(1, 'test', 0, 1568952988),
+(2, 'test1', 0, 1568953103);
 
 -- --------------------------------------------------------
 
@@ -91,7 +113,7 @@ INSERT INTO `h_menu` (`category_id`, `image`, `parent_id`, `path`, `level`, `cou
 --
 
 CREATE TABLE `h_menu_language` (
-  `category_id` int(11) NOT NULL DEFAULT 0,
+  `menu_id` int(11) NOT NULL DEFAULT 0,
   `language_id` int(11) NOT NULL DEFAULT 1,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
@@ -103,7 +125,7 @@ CREATE TABLE `h_menu_language` (
 -- 转存表中的数据 `h_menu_language`
 --
 
-INSERT INTO `h_menu_language` (`category_id`, `language_id`, `title`, `description`, `meta_keywords`, `meta_description`) VALUES
+INSERT INTO `h_menu_language` (`menu_id`, `language_id`, `title`, `description`, `meta_keywords`, `meta_description`) VALUES
 (1, 1, '开发语言', '', NULL, NULL),
 (2, 1, '前端语言', '', NULL, NULL),
 (23, 1, 'JAVA', '', NULL, NULL),
@@ -327,7 +349,6 @@ CREATE TABLE `h_product` (
   `content_type` varchar(20) DEFAULT 'html',
   `image` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '主图',
   `comment_count` bigint(20) NOT NULL DEFAULT 0,
-  `click_count` int(11) DEFAULT 0,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -336,8 +357,8 @@ CREATE TABLE `h_product` (
 -- 转存表中的数据 `h_product`
 --
 
-INSERT INTO `h_product` (`node_id`, `author`, `node_date`, `node_status`, `comment_status`, `node_type`, `content_type`, `image`, `comment_count`, `click_count`, `created_at`, `updated_at`) VALUES
-(2, 1, 1567396440, 'publish', 'open', 'node', 'html', NULL, 0, 0, 1567396502, 1567396681);
+INSERT INTO `h_product` (`node_id`, `author`, `node_date`, `node_status`, `comment_status`, `node_type`, `content_type`, `image`, `comment_count`, `created_at`, `updated_at`) VALUES
+(2, 1, 1567396440, 'publish', 'open', 'node', 'html', 'images/20190827/858a039b-cac3-423c-b427-0d50ea381a62.jpg', 0, 1567396502, 1568865352);
 
 -- --------------------------------------------------------
 
@@ -414,6 +435,14 @@ CREATE TABLE `h_product_image` (
   `sort_order` smallint(6) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- 转存表中的数据 `h_product_image`
+--
+
+INSERT INTO `h_product_image` (`product_image_id`, `product_id`, `image`, `sort_order`) VALUES
+(6, 2, 'images/20190827/858a039b-cac3-423c-b427-0d50ea381a62.jpg', 0),
+(7, 2, 'images/20190918/f882e6a6-b786-492f-9bc0-6bf53ba9e289.jpg', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -434,7 +463,7 @@ CREATE TABLE `h_product_language` (
 --
 
 INSERT INTO `h_product_language` (`node_id`, `language_id`, `title`, `content`, `meta_keywords`, `meta_description`) VALUES
-(2, 1, 'iPhone XR', '<p>iPhone XR<br></p>', NULL, NULL);
+(2, 1, 'iPhone XR', '<p>iPhone XR</p>', '', '');
 
 -- --------------------------------------------------------
 
@@ -534,7 +563,7 @@ CREATE TABLE `h_users` (
 --
 
 INSERT INTO `h_users` (`id`, `email`, `username`, `password`, `created_at`, `updated_at`, `status`, `display_name`, `avatar`, `private_notes`, `lasttime`, `lastip`) VALUES
-(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Allen', NULL, NULL, 1567475085, '127.0.0.1'),
+(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Administrator', NULL, NULL, 1568943206, '127.0.0.1'),
 (3, '83390286@qq.com', 'hmvc', '$2y$10$5dFoGFfmx19LoJ5rxfx1bOsb7jU8uZoku.ujMu16j2FFusSl4cj3u', 0, 0, 1, 'hmvc', NULL, NULL, 1515419055, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -604,7 +633,14 @@ ALTER TABLE `h_logs`
 -- 表的索引 `h_menu`
 --
 ALTER TABLE `h_menu`
-  ADD PRIMARY KEY (`category_id`);
+  ADD PRIMARY KEY (`menu_id`),
+  ADD KEY `group_id` (`group_id`);
+
+--
+-- 表的索引 `h_menu_group`
+--
+ALTER TABLE `h_menu_group`
+  ADD PRIMARY KEY (`menu_group_id`);
 
 --
 -- 表的索引 `h_node`
@@ -741,7 +777,13 @@ ALTER TABLE `h_logs`
 -- 使用表AUTO_INCREMENT `h_menu`
 --
 ALTER TABLE `h_menu`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- 使用表AUTO_INCREMENT `h_menu_group`
+--
+ALTER TABLE `h_menu_group`
+  MODIFY `menu_group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `h_node`
@@ -777,7 +819,7 @@ ALTER TABLE `h_product_category`
 -- 使用表AUTO_INCREMENT `h_product_image`
 --
 ALTER TABLE `h_product_image`
-  MODIFY `product_image_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 使用表AUTO_INCREMENT `h_product_meta`

@@ -47,7 +47,7 @@ function addGET()
     page()->setTitle('产品管理');
     $c = new \system\component\Category('product_category', 'product_category_language', 'category_id');
 
-    render('product.product_form', ['categories' => $c->getList()]);
+    render('product.product_form', ['categories' => $c->getList(),'product_images'=>[]]);
 }
 
 function addPOST()
@@ -83,7 +83,12 @@ function editGET()
     $node = Product::findById($node_id);
     $language = $node->getLanguageById($node_id);
     $relationships = $node->getRelationships($node_id);
-    render('product.product_form', ['categories' => $c->getList(), 'node' => $node, 'language' => $language, 'relationships' => $relationships]);
+    $product_images = $node->getProductImages($node_id);
+    render('product.product_form', ['categories' => $c->getList(),
+        'node' => $node,
+        'language' => $language,
+        'relationships' => $relationships,
+        'product_images' => $product_images]);
 }
 
 function editPOST()

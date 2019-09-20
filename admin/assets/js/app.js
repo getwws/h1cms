@@ -41,9 +41,10 @@ var APP = function() {
     this.image_manager = function(){
         APP.create_basemodal('图片管理','image_filemangent');
         $("#image_filemangent").on('show.bs.modal', function (e) {
-            var targetname = $(e.relatedTarget).data('targetname');
+            var targetname = $(e.relatedTarget).data('target-id');
             var thumb = $(e.relatedTarget).data('thumb');
-            $.get(ADMIN_BASEURL + '/filemanager/dialog.php',{modal:'image_filemangent',target:targetname,thumb:thumb,path:''},function(data){
+            var selected = $(e.relatedTarget).data('selected');
+            $.get(ADMIN_BASEURL + '/filemanager/dialog.php',{modal:'image_filemangent',target:targetname,thumb:thumb,path:'',selected:selected},function(data){
                 $("#image_filemangent").html(data);
             });
         });

@@ -27,11 +27,11 @@
                             <i class="fa fa-folder fa-5x"></i>
                         <?php } ?>
                         <?php if($entry['type']=='file' && !$entry['is_image']){ ?>
-                            <a href="javascript:fm_selected('<?php echo $entry['path'];?>');" class="file">
+                            <a href="javascript:<?php echo $selected;?>('<?php echo $entry['path'];?>');" class="file">
                             <i class="fa fa-file fa-5x"></i>
                         <?php } ?>
                         <?php if($entry['type']=='file' && $entry['is_image']){ ?>
-                        <a href="javascript:fm_selected('<?php echo $entry['path'];?>',<?php echo $entry['thumb'];?>);" class="thumbnail">
+                        <a href="javascript:<?php echo $selected;?>('<?php echo $entry['path'];?>','<?php echo $entry['thumb'];?>');" class="thumbnail">
                             <img src="<?php echo $entry['thumb'];?>" alt="<?php echo $entry['name'];?>" title="<?php echo $entry['name'];?>" class="img-thumbnail" />
                             <?php } ?>
                     </a>
@@ -46,16 +46,17 @@
                 var _modal = '<?php echo $modal;?>';
                 var _target = '<?php echo $target;?>';
                 var _thumb = '<?php echo $thumb;?>';
+                var _selected = '<?php echo $selected;?>';
                 function fm_open_dir(_path){
-                    $('#'+_modal).load('<?php echo url_for('/filemanager/dialog.php'); ?>',{path:_path,modal:_modal,target:_target,thumb:_thumb});
+                    $('#'+_modal).load('<?php echo url_for('/filemanager/dialog.php'); ?>',{path:_path,modal:_modal,target:_target,thumb:_thumb,selected:_selected});
                     $('[data-toggle="tooltip"]').tooltip('hide');
                 }
                 function fm_selected(path,thumb){
-                    if($('input[name="'+_target+'"]').length>0){
-                        $('input[name="'+_target+'"]').val(path);
+                    if($('#'+_target).length>0){
+                        $('#'+_target).val(path);
                     }
                     if($('#'+_thumb).length>0){
-                        $('#'+_thumb).val(thumb);
+                        $('#'+_thumb).attr('src',thumb);
                     }
                     $('#'+_modal).modal('hide');
                 }
@@ -117,42 +118,11 @@
                         });
                     }
                 });
-                // $('#btn-folder').on('shown.bs.popover', function() {
-                //     $('#btn-create').on('click', function() {
-                //         $.ajax({
-                //             url: '',
-                //             type: 'post',
-                //             dataType: 'json',
-                //             data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
-                //             beforeSend: function() {
-                //                 $('#btn-create').prop('disabled', true);
-                //             },
-                //             complete: function() {
-                //                 $('#btn-create').prop('disabled', false);
-                //             },
-                //             success: function(json) {
-                //                 if (json['error']) {
-                //                     alert(json['error']);
-                //                 }
-                //
-                //                 if (json['success']) {
-                //                     alert(json['success']);
-                //
-                //                     $('#button-refresh').trigger('click');
-                //                 }
-                //             },
-                //             error: function(xhr, ajaxOptions, thrownError) {
-                //                 alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                //             }
-                //         });
-                //     });
-                // });
 
             </script>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
         </div>
     </div>
 </div>
