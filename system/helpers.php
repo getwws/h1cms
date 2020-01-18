@@ -242,3 +242,7 @@ function app_set($key , $value){
 function app_get($key , $default = null){
     return \getw\Container::getInstance()->get($key,$default);
 }
+
+function show_debug(){
+    ini_set('display_errors','On');
+}

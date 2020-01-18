@@ -6,12 +6,14 @@ register_assets_plugins('jquery-validation');
 register_assets_plugins('summernote');
 register_assets_plugins('flatpickr');
 ?>
-<?php get_header(); ?>
+<?php get_header();
+add_breadcrumb('单页管理', url_for('/node/page.php'), '');
+?>
 <form action="" method="post" class="jq-validate form-horizontal">
 <div class="page-header">
     <div class="container-fluid">
         <div class="pull-right">
-            <a href="<?php echo url_for('/node/index.php'); ?>" class="btn btn-space btn-default"
+            <a href="<?php echo url_for('/node/page.php'); ?>" class="btn btn-space btn-default"
                data-toggle="tooltip"><i class="fa fa-reply"></i> 返回</a>
             <button type="submit" class="btn btn-space btn-primary" data-toggle="tooltip"><i
                         class="fa fa-save"></i>保存
@@ -51,6 +53,14 @@ register_assets_plugins('flatpickr');
                                     <input type="text" class="form-control" id="language-title"
                                            name="language[<?php echo H_DEFAULT_LANGUAGE; ?>][title]"
                                            value="<?php echo $language->title; ?>" placeholder="请输入单页标题">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label class="col-sm-2 col-form-label rigth-label" for="node_slug" >SEO Url</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="node_slug"
+                                           name="node[slug]"
+                                           value="<?php echo $node->slug; ?>" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -154,13 +164,17 @@ register_assets_plugins('flatpickr');
                 }
             }
         });
-        $(function () {
-            $('.ui-datetimepicker').flatpickr({
-                enableTime: true,
-                altInput: true,
-                altFormat: "Y-m-d H:i",
-                dateFormat: "Y-m-d H:i",
-                locale: "zh"
+
+        $('.ui-datetimepicker').flatpickr({
+            enableTime: true,
+            altInput: true,
+            altFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d H:i",
+            locale: "zh"
+        });
+        $('#language-title').blur(function(){
+            $.get('<?php echo url_for('/node/index.php?action=generateurl') ?>&title='+$(this).val(),function(title){
+                $('#node_slug').val(title);
             });
         });
 

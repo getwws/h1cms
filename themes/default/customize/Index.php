@@ -26,7 +26,8 @@ class Index extends ThemeController
         $this->pageasiede->title = '主题设置';
         //$pageasiede->description = '主题设置';
         $this->pageasiede->addMenu('setting','常规设置','?action=setting');
-        $this->pageasiede->addMenu('nav','导航','?action=nav');
+        $this->pageasiede->addMenu('nav','导航设置','?action=nav');
+        $this->pageasiede->addMenu('banner','首页轮播图设置','?action=banner');
     }
     public function index()
     {
@@ -44,6 +45,13 @@ class Index extends ThemeController
     public function nav()
     {
         $this->pageasiede->setMenuActive('nav');
+        $this->pageasiede->render(function(){
+            $this->render('customize.views.nav');
+        });
+    }
+
+    public function banner(){
+        $this->pageasiede->setMenuActive('banner');
         $this->pageasiede->render(function(){
             $this->render('customize.views.nav');
         });

@@ -125,7 +125,7 @@
             </form>
 
     </div>
-                <p class="text-muted text-center"><small>Copyright © GETW 2018</small></p>
+                <p class="text-muted text-center"><small>Copyright © GETCMS 2018</small></p>
 
 
 <script src="<?php echo ASSETS_URL; ?>/js/popper.min.js"></script>

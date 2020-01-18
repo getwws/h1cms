@@ -49,8 +49,10 @@ function indexPost()
                 db_insert('options', ['option_value' => $value, 'option_group' => $option_group_name, 'option_name' => $key]);
             }
         }
-
+        //清除缓存
+        system\Option::clear($option_group_name);
     }
+
     add_flash('保存成功', Session::SUCCESS);
     redirect_to('/system/setting.php');
 }

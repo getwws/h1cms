@@ -104,3 +104,8 @@ function editPOST()
         redirect(url_for('/node/index.php'));
     }
 }
+
+function generateUrlAction(){
+    $title = input('title');
+    echo \getw\Str::slug($title,'-',false);
+}

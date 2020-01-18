@@ -37,7 +37,7 @@ class Menu
     public function getById($id, $language = H_DEFAULT_LANGUAGE)
     {
 
-        $sql = "select * from {{$this->table}} c, {{$this->language_table}} cd  WHERE c.{$this->primaryKey}=:id and cd.language_id=:language";
+        $sql = "select * from {{$this->table}} c, {{$this->language_table}} cd  WHERE c.{$this->primaryKey}=cd.{$this->primaryKey} and c.{$this->primaryKey}=:id and cd.language_id=:language";
         $stm = db_query($sql, ['id' => $id, 'language' => $language]);
         return $stm->fetchObject();
     }
@@ -69,10 +69,11 @@ class Menu
     public function removeByGroupId($id)
     {
         $all_menu_ids = db_fetchCol("select menu_id from {{$this->table}} where group_id={$id}");
-//        db_delete($this->table, ['group_id' => $id]);
-//        db_delete($this->group_table, ['menu_group_id' => $id]);
-
-        DB::table($this->language_table)->whereIn('menu_id',$all_menu_ids)->delete();
+        db_delete($this->table, ['group_id' => $id]);
+        db_delete($this->group_table, ['menu_group_id' => $id]);
+        if(!empty($all_menu_ids)){
+            DB::table($this->language_table)->whereIn('menu_id',$all_menu_ids)->delete();
+        }
     }
 
 
@@ -190,7 +191,8 @@ class Menu
             if ($category->parent_id == 0)
                 array_push($stack, array('category' => $category, 'level' => 0));
         }
-        do {
+        $html = [];
+        while (count($stack) > 0){
             $top_category = array_shift($stack);
             for ($i = 0; $i < count($query); $i++) {
                 if ($query[$i]->parent_id == $top_category['category']->menu_id) {
@@ -198,7 +200,7 @@ class Menu
                 }
             }
             $html[] = $top_category['category'];
-        } while (count($stack) > 0);
+        }
         return $html;
     }
 

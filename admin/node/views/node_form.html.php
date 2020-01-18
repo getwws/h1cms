@@ -62,6 +62,14 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
                                            value="<?php echo $language->title; ?>" placeholder="请输入文章标题">
                                 </div>
                             </div>
+                            <div class="form-group row required">
+                                <label class="col-sm-2 col-form-label rigth-label" for="node_slug" >SEO Url</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="node_slug"
+                                           name="node[slug]"
+                                           value="<?php echo $node->slug; ?>" placeholder="">
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label rigth-label" for="language-content">文章内容</label>
                                 <div class="col-sm-10">
@@ -192,15 +200,20 @@ add_breadcrumb('文章管理', url_for('/node/'), '');
                 }
             }
         });
-        $(function () {
-            $('.ui-datetimepicker').flatpickr({
-                enableTime: true,
-                altInput: true,
-                altFormat: "Y-m-d H:i",
-                dateFormat: "Y-m-d H:i",
-                locale: "zh"
+
+        $('.ui-datetimepicker').flatpickr({
+            enableTime: true,
+            altInput: true,
+            altFormat: "Y-m-d H:i",
+            dateFormat: "Y-m-d H:i",
+            locale: "zh"
+        });
+        $('#language-title').blur(function(){
+            $.get('<?php echo url_for('/node/index.php?action=generateurl') ?>&title='+$(this).val(),function(title){
+                $('#node_slug').val(title);
             });
         });
+
         //validator
         jquery_validator(
             {

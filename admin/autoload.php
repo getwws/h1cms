@@ -51,6 +51,7 @@ if (!defined('H_ADMIN_LOGIN')) {
     //登录检查
     if (!\system\Auth::isLogin(true)) {
         //add_flash("登录已过期，请重新登录", \getw\Session::ERROR);
+        \getw\Input::isAjax() && json_response(['message'=>'未登录','type'=>'error'],-1);
         redirect_to('/system/login.php');
     }
     //权限检查

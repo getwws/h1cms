@@ -94,8 +94,6 @@ $(function () {
         });
     });
 
-    // LAYOUT SETTINGS
-    // ======================
 
     // fa fa-bars 切换到MINI
     $('.js-sidebar-toggler').click(function() {

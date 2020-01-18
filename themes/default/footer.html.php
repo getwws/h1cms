@@ -1,63 +1,52 @@
-<div id="footer" class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-1">
-                <img class="logo-mini" src="images/logo-mini.png" alt="Hostio" />
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-2">
-                <h4>Company</h4>
-                <ul class="footer-menu">
-                    <li><a href="about.html">About us</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contact.html">Contact us</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-2">
-                <h4>Policy</h4>
-                <ul class="footer-menu">
-                    <li><a href="terms.html">Terms and Conditions</a></li>
-                    <li><a href="policy.html">Copyright Policy</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-2">
-                <h4>Services</h4>
-                <ul class="footer-menu">
-                    <li><a href="whosting.html">Web Hosting</a></li>
-                    <li><a href="chosting.html">Cloud Hosting</a></li>
-                    <li><a href="dhosting.html">Dedicated Hosting</a></li>
-                    <li><a href="domain.html">Domain Names</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-2">
-                <h4>Other links</h4>
-                <ul class="footer-menu">
-                    <li><a href="transfer.html">Transfer domains</a></li>
-                    <li><a href="portal.html">Customer Portal</a></li>
-                    <li><a href="support.html">Support Portal</a></li>
-                    <li><a href="tutorials.html">Video Tutorials</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <div class="phone"><i class="fa fa-phone"></i> 00 285 900 38502</div>
-                <div class="email"><i class="fa fa-envelope"></i> hello@hostio.io</div>
-                <div class="address">
-                    <i class="fa fa-map-marker"></i>
-                    <div>Brizbin, Australia<br>
-                        Road 398, Center<br>
-                        Office 38, floor 3</div>
-                </div>
-                <div class="social">
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
+<footer>
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <p class="fh5co-social-icons">
+                        <a href="#"><i class="icon-twitter2"></i></a>
+                        <a href="#"><i class="icon-facebook2"></i></a>
+                        <a href="#"><i class="icon-instagram"></i></a>
+                        <a href="#"><i class="icon-dribbble2"></i></a>
+                        <a href="#"><i class="icon-youtube"></i></a>
+                    </p>
+                    <p>Copyright 2016 Free Html5 <a href="#">Pentagon</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
                 </div>
             </div>
         </div>
     </div>
+</footer>
+
+
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+<!-- END page -->
+
+</div>
+<!-- END wrapper -->
+
+
+<script src="<?php echo THEME_URL; ?>/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="<?php echo THEME_URL; ?>/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="<?php echo THEME_URL; ?>/js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="<?php echo THEME_URL; ?>/js/jquery.waypoints.min.js"></script>
+<!-- Stellar -->
+<script src="<?php echo THEME_URL; ?>/js/jquery.stellar.min.js"></script>
+<!-- Superfish -->
+<script src="<?php echo THEME_URL; ?>/js/hoverIntent.js"></script>
+<script src="<?php echo THEME_URL; ?>/js/superfish.js"></script>
+
+<!-- Main JS -->
+<script src="<?php echo THEME_URL; ?>/js/main.js"></script>
+
+
+<script>
+    $(function() {
+
+    });
+</script>
+
 </body>
 </html>

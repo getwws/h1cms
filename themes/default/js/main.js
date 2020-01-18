@@ -1,79 +1,140 @@
-"use strict";
-$(window).on("load", function() {
-    // Search domain button, linked to Name.com
-    $("#search-btn").on("click", function(e){
-        e.preventDefault();
-        var domain=$("#domain-text").val();
-        var checkdomain=ValidURL(domain);
-        if(checkdomain){
-            window.location.href = "https://www.name.com/domain/search-4-4/?keyword="+domain;
-        }else{
-            alert("Please enter a valid domain.");
-        }
-        return false;
-    });
-    // Adding hover style for the feature box
-    var featureBox = $(".feature-box", "#features");
-    featureBox.on("mouseover",function(){
-        featureBox.removeClass("active");
-        $(this).addClass("active");
-        return false;
-    });
-    // About page "about.html" and web hosting page "whosting.html"
-    // Fix image resize issue.
-    var storyImgHolder = $(".image-holder", "#story");
-    var storyText = $(".txt-col","#story");
-    var platformTooltip = $(".tool-tip", "#platforms");
-    
-    if ($(window).width() > 990) {
-        storyImgHolder.css("height",storyText.height()+140);
-        platformTooltip.removeAttr("style");
-    }else{
-        platformTooltip.each(function(i){
-            $(this).css("margin-left",(($(this).width()+20)/2)*-1);
-        });
-    }
-    // About page "about.html" and web hosting page "whosting.html"
-    // Fix image resize issue when the window resized
-    $(window).on("resize",function() {
-        if ($(window).width() > 990) {
-            storyImgHolder.css("height",storyText.height()+140);
-            platformTooltip.removeAttr("style");
-        }else{
-            platformTooltip.each(function(i){
-                $(this).css("margin-left",(($(this).width()+20)/2)*-1);
-            });
-        }
-        return false;
-    });
-    // Web hosting page "whosting.html"
-    // Change the image when mouse over the platform icon.
-    var platformLink = $(".platform-link", "#platforms");
-    platformLink.on("mouseover",function(){
-        platformLink.removeClass("active");
-        $(this).addClass("active");
-        $("img", "#browser").removeClass("active");
-        var getID = $(this).data("pid");
-        $("#p"+getID, "#browser").addClass("active");
-        return false;
-    });
-    // Support page "support.html"
-    // The answer "Show" and "hide" function in FAQ section
-    $(".faq-question-holder", "#faq-questions").on("click",function(){
-        $(this).toggleClass("active"); 
-        return false;
-    });
-    // URL Validation
-    function ValidURL(str) {
-      var pattern = new RegExp('((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-      if(!pattern.test(str)) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-});
+;(function () {
+	
+	'use strict';
+
+
+
+	// iPad and iPod detection	
+	var isiPad = function(){
+		return (navigator.platform.indexOf("iPad") != -1);
+	};
+
+	var isiPhone = function(){
+	    return (
+			(navigator.platform.indexOf("iPhone") != -1) || 
+			(navigator.platform.indexOf("iPod") != -1)
+	    );
+	};
+
+	// Main Menu Superfish
+	var mainMenu = function() {
+
+		$('#fh5co-primary-menu').superfish({
+			delay: 0,
+			animation: {
+				opacity: 'show'
+			},
+			speed: 'fast',
+			cssArrows: true,
+			disableHI: true
+		});
+
+	};
+
+	// Parallax
+	var parallax = function() {
+		$(window).stellar();
+	};
+
+
+	// Offcanvas and cloning of the main menu
+	var offcanvas = function() {
+
+		var $clone = $('#fh5co-menu-wrap').clone();
+		$clone.attr({
+			'id' : 'offcanvas-menu'
+		});
+		$clone.find('> ul').attr({
+			'class' : '',
+			'id' : ''
+		});
+
+		$('#fh5co-page').prepend($clone);
+
+		// click the burger
+		$('.js-fh5co-nav-toggle').on('click', function(){
+
+			if ( $('body').hasClass('fh5co-offcanvas') ) {
+				$('body').removeClass('fh5co-offcanvas');
+			} else {
+				$('body').addClass('fh5co-offcanvas');
+			}
+			// $('body').toggleClass('fh5co-offcanvas');
+
+		});
+
+		$('#offcanvas-menu').css('height', $(window).height());
+
+		$(window).resize(function(){
+			var w = $(window);
+
+
+			$('#offcanvas-menu').css('height', w.height());
+
+			if ( w.width() > 769 ) {
+				if ( $('body').hasClass('fh5co-offcanvas') ) {
+					$('body').removeClass('fh5co-offcanvas');
+				}
+			}
+
+		});	
+
+	}
+
+	
+
+	// Click outside of the Mobile Menu
+	var mobileMenuOutsideClick = function() {
+		$(document).click(function (e) {
+	    var container = $("#offcanvas-menu, .js-fh5co-nav-toggle");
+	    if (!container.is(e.target) && container.has(e.target).length === 0) {
+	      if ( $('body').hasClass('fh5co-offcanvas') ) {
+				$('body').removeClass('fh5co-offcanvas');
+			}
+	    }
+		});
+	};
+
+
+	// Animations
+
+	var contentWayPoint = function() {
+		var i = 0;
+		$('.animate-box').waypoint( function( direction ) {
+
+			if( direction === 'down' && !$(this.element).hasClass('animated') ) {
+
+				i++;
+
+				$(this.element).addClass('item-animate');
+				setTimeout(function(){
+
+					$('body .animate-box.item-animate').each(function(k){
+						var el = $(this);
+						setTimeout( function () {
+							el.addClass('fadeInUp animated');
+							el.removeClass('item-animate');
+						},  k , 'easeInOutExpo' );
+					});
+
+				}, 100);
+
+			}
+
+		} , { offset: '85%' } );
+	};
+
+
+	// Document on load.
+	$(function(){
+		mainMenu();
+		parallax();
+		offcanvas();
+		mobileMenuOutsideClick();
+		contentWayPoint();
+		
+
+	});
+
+
+}());

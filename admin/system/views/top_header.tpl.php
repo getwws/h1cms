@@ -13,13 +13,14 @@
             <li>
                 <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="fa fa-bars"></i></a>
             </li>
-            <li>
-                <form class="navbar-search  d-none d-sm-none" action="javascript:;">
-                    <div class="rel">
-                        <span class="search-icon"><i class="fa fa-search"></i></span>
-                        <input class="form-control" placeholder="Search here...">
-                    </div>
-                </form>
+            <li class="dropdown dropdown-user">
+                <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                    <i class="fa fa-share-square-o" aria-hidden="true"></i> 快捷菜单</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="<?php echo url_for('/node/index.php?action=add'); ?>"><i class="fa fa-clone"></i>发布文章</a>
+                    <li class="dropdown-divider"></li>
+                    <a class="dropdown-item" href="<?php echo BASE_URL;?>" target="_blank"><i class="fa fa-share"></i>网站首页</a>
+                </ul>
             </li>
         </ul>
         <!-- END TOP-LEFT TOOLBAR-->

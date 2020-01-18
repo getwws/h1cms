@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1
--- 生成日期： 2019-09-20 06:25:26
--- 服务器版本： 10.3.16-MariaDB
--- PHP 版本： 7.3.7
+-- 主机： localhost
+-- 生成日期： 2020-01-18 11:15:13
+-- 服务器版本： 5.7.26
+-- PHP 版本： 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -35,7 +35,7 @@ CREATE TABLE `h_attachment` (
   `width` int(10) UNSIGNED NOT NULL,
   `height` int(10) UNSIGNED NOT NULL,
   `type` varchar(15) NOT NULL,
-  `created_at` int(10) UNSIGNED NOT NULL DEFAULT 0
+  `created_at` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
@@ -46,9 +46,9 @@ CREATE TABLE `h_attachment` (
 
 CREATE TABLE `h_logs` (
   `id` int(11) NOT NULL,
-  `uid` int(11) DEFAULT 0,
+  `uid` int(11) DEFAULT '0',
   `level` varchar(10) DEFAULT 'system',
-  `message` text DEFAULT NULL,
+  `message` text,
   `location` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -60,30 +60,40 @@ CREATE TABLE `h_logs` (
 
 CREATE TABLE `h_menu` (
   `menu_id` int(11) NOT NULL,
-  `group_id` int(11) DEFAULT 0,
+  `group_id` int(11) DEFAULT '0',
   `image` varchar(255) DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `path` varchar(255) DEFAULT NULL,
-  `level` smallint(5) UNSIGNED DEFAULT 0,
-  `count` int(11) DEFAULT 0,
-  `sort_order` smallint(6) DEFAULT 0,
+  `level` smallint(5) UNSIGNED DEFAULT '0',
+  `url` varchar(255) DEFAULT NULL,
+  `sort_order` smallint(6) DEFAULT '0',
   `created_at` int(11) UNSIGNED DEFAULT NULL,
   `updated_at` int(11) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1
+  `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `h_menu`
 --
 
-INSERT INTO `h_menu` (`menu_id`, `group_id`, `image`, `parent_id`, `path`, `level`, `count`, `sort_order`, `created_at`, `updated_at`, `status`) VALUES
-(1, 0, NULL, 0, '1', 0, 0, 3, 1515306164, 1515306164, 1),
-(2, 0, NULL, 0, '2', 0, 0, 0, 1515306164, 1515306164, 1),
-(20, 0, NULL, 2, '2,20', 1, 0, 0, 1515324913, 1515324913, 1),
-(21, 0, NULL, 2, '2,21', 1, 0, 0, 1515324920, 1515324920, 1),
-(22, 0, NULL, 1, '1,22', 1, 0, 0, 1515324929, 1515324929, 1),
-(23, 0, NULL, 1, '1,23', 1, 0, 0, 1515324935, 1515324935, 1),
-(24, 0, NULL, 1, '1,24', 1, 0, 0, 1515324945, 1515324945, 1);
+INSERT INTO `h_menu` (`menu_id`, `group_id`, `image`, `parent_id`, `path`, `level`, `url`, `sort_order`, `created_at`, `updated_at`, `status`) VALUES
+(1, 0, NULL, 0, '1', 0, '0', 3, 1515306164, 1515306164, 1),
+(2, 0, NULL, 0, '2', 0, '#', 0, 1515306164, 1515306164, 1),
+(20, 0, NULL, 2, '2,20', 1, '0', 0, 1515324913, 1515324913, 1),
+(21, 0, NULL, 2, '2,21', 1, '0', 0, 1515324920, 1515324920, 1),
+(22, 0, NULL, 1, '1,22', 1, '0', 0, 1515324929, 1515324929, 1),
+(23, 0, NULL, 1, '1,23', 1, '0', 0, 1515324935, 1515324935, 1),
+(24, 0, NULL, 1, '1,24', 1, '0', 0, 1515324945, 1515324945, 1),
+(29, 0, NULL, 2, '2,29', 1, '0', 0, 1574214672, 1574214672, 1),
+(37, 6, NULL, 0, '37', 0, '/', 0, 1574650887, 1574650887, 1),
+(40, 6, NULL, 0, '40', 0, 'about_us', 1, 1574820069, 1574820069, 1),
+(39, 6, NULL, 0, '39', 0, NULL, 2, 1574753573, 1574753573, 1),
+(41, 6, NULL, 0, '41', 0, NULL, 3, 1574820084, 1574820084, 1),
+(42, 6, NULL, 0, '42', 0, NULL, 0, 1575016776, 1575016776, 1),
+(43, 6, NULL, 0, '43', 0, NULL, 0, 1575016782, 1575016782, 1),
+(44, 6, NULL, 0, '44', 0, NULL, 0, 1575017081, 1575017081, 1),
+(46, 0, NULL, 20, '2,20,46', 2, 'https://vue.org', 0, 1576142854, 1576142854, 1),
+(47, 0, NULL, 0, '47', 0, '/contact', 4, 1576229053, 1576229053, 1);
 
 -- --------------------------------------------------------
 
@@ -94,7 +104,7 @@ INSERT INTO `h_menu` (`menu_id`, `group_id`, `image`, `parent_id`, `path`, `leve
 CREATE TABLE `h_menu_group` (
   `menu_group_id` int(11) NOT NULL,
   `menu_group_name` varchar(255) NOT NULL,
-  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `sort_order` int(11) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
@@ -103,8 +113,7 @@ CREATE TABLE `h_menu_group` (
 --
 
 INSERT INTO `h_menu_group` (`menu_group_id`, `menu_group_name`, `sort_order`, `created_at`) VALUES
-(1, 'test', 0, 1568952988),
-(2, 'test1', 0, 1568953103);
+(6, '底部菜单', 0, 1574650877);
 
 -- --------------------------------------------------------
 
@@ -113,10 +122,10 @@ INSERT INTO `h_menu_group` (`menu_group_id`, `menu_group_name`, `sort_order`, `c
 --
 
 CREATE TABLE `h_menu_language` (
-  `menu_id` int(11) NOT NULL DEFAULT 0,
-  `language_id` int(11) NOT NULL DEFAULT 1,
+  `menu_id` int(11) NOT NULL DEFAULT '0',
+  `language_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
+  `description` text,
   `meta_keywords` varchar(255) DEFAULT NULL,
   `meta_description` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -132,7 +141,14 @@ INSERT INTO `h_menu_language` (`menu_id`, `language_id`, `title`, `description`,
 (24, 1, 'Python', '', NULL, NULL),
 (22, 1, 'PHP', '', NULL, NULL),
 (20, 1, 'Javascript', '', NULL, NULL),
-(21, 1, 'Css', '', NULL, NULL);
+(21, 1, 'Css', '', NULL, NULL),
+(29, 1, 'test', '', NULL, NULL),
+(41, 1, '测试1', '', NULL, NULL),
+(37, 1, '首页', '', NULL, NULL),
+(39, 1, '联系我们', '', NULL, NULL),
+(40, 1, '关于我们', '', NULL, NULL),
+(46, 1, 'Vue', NULL, NULL, NULL),
+(47, 1, '联系我们', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -142,14 +158,15 @@ INSERT INTO `h_menu_language` (`menu_id`, `language_id`, `title`, `description`,
 
 CREATE TABLE `h_node` (
   `node_id` bigint(20) UNSIGNED NOT NULL,
-  `author` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `slug` varchar(255) NOT NULL,
+  `author` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `node_date` int(11) UNSIGNED DEFAULT NULL,
   `node_status` varchar(20) NOT NULL DEFAULT 'publish',
   `comment_status` varchar(20) NOT NULL DEFAULT 'open',
   `node_type` varchar(20) NOT NULL DEFAULT 'node',
   `content_type` varchar(20) DEFAULT 'html',
-  `comment_count` bigint(20) NOT NULL DEFAULT 0,
-  `click_count` int(11) DEFAULT 0,
+  `comment_count` bigint(20) NOT NULL DEFAULT '0',
+  `click_count` int(11) DEFAULT '0',
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -158,11 +175,11 @@ CREATE TABLE `h_node` (
 -- 转存表中的数据 `h_node`
 --
 
-INSERT INTO `h_node` (`node_id`, `author`, `node_date`, `node_status`, `comment_status`, `node_type`, `content_type`, `comment_count`, `click_count`, `created_at`, `updated_at`) VALUES
-(1, 1, 1481410906, 'publish', 'open', 'node', 'html', 0, 0, 1481410906, 1481410906),
-(5, 1, 1516241100, 'publish', 'open', 'node', 'html', 0, 0, 1516241138, 1520903990),
-(6, 1, 1523355720, 'publish', 'open', 'page', 'html', 0, 0, 1523355783, 1523355783),
-(7, 1, 1523357580, 'publish', 'open', 'page', 'html', 0, 0, 1523357621, 1567069353);
+INSERT INTO `h_node` (`node_id`, `slug`, `author`, `node_date`, `node_status`, `comment_status`, `node_type`, `content_type`, `comment_count`, `click_count`, `created_at`, `updated_at`) VALUES
+(1, '中文测试', 1, 1481410860, 'publish', 'open', 'node', 'html', 0, 0, 1481410906, 1576476347),
+(5, 'test', 1, 1516241100, 'publish', 'open', 'node', 'html', 0, 0, 1516241138, 1576464207),
+(6, '这是一篇-中文测试tsest', 1, 1523355720, 'publish', 'open', 'page', 'html', 0, 0, 1523355783, 1576464111),
+(7, 'hello-page', 1, 1523357580, 'publish', 'open', 'page', 'html', 0, 0, 1523357621, 1576464128);
 
 -- --------------------------------------------------------
 
@@ -173,14 +190,14 @@ INSERT INTO `h_node` (`node_id`, `author`, `node_date`, `node_status`, `comment_
 CREATE TABLE `h_node_category` (
   `category_id` int(11) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `path` varchar(255) DEFAULT NULL,
-  `level` smallint(5) UNSIGNED DEFAULT 0,
-  `count` int(11) DEFAULT 0,
-  `sort_order` smallint(6) DEFAULT 0,
+  `level` smallint(5) UNSIGNED DEFAULT '0',
+  `count` int(11) DEFAULT '0',
+  `sort_order` smallint(6) DEFAULT '0',
   `created_at` int(11) UNSIGNED DEFAULT NULL,
   `updated_at` int(11) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1
+  `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
@@ -194,7 +211,8 @@ INSERT INTO `h_node_category` (`category_id`, `image`, `parent_id`, `path`, `lev
 (21, NULL, 2, '2,21', 1, 0, 0, 1515324920, 1515324920, 1),
 (22, NULL, 1, '1,22', 1, 0, 0, 1515324929, 1515324929, 1),
 (23, NULL, 1, '1,23', 1, 0, 0, 1515324935, 1515324935, 1),
-(24, NULL, 1, '1,24', 1, 0, 0, 1515324945, 1515324945, 1);
+(24, NULL, 1, '1,24', 1, 0, 0, 1515324945, 1515324945, 1),
+(29, NULL, 20, '2,20,29', 2, 0, 0, 1576142721, 1576142721, 1);
 
 -- --------------------------------------------------------
 
@@ -203,8 +221,8 @@ INSERT INTO `h_node_category` (`category_id`, `image`, `parent_id`, `path`, `lev
 --
 
 CREATE TABLE `h_node_category_language` (
-  `category_id` int(11) NOT NULL DEFAULT 0,
-  `language_id` int(11) NOT NULL DEFAULT 1,
+  `category_id` int(11) NOT NULL DEFAULT '0',
+  `language_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `meta_keywords` varchar(255) DEFAULT NULL,
@@ -222,7 +240,8 @@ INSERT INTO `h_node_category_language` (`category_id`, `language_id`, `title`, `
 (24, 1, 'Python', '', NULL, NULL),
 (22, 1, 'PHP', '', NULL, NULL),
 (20, 1, 'Javascript', '', NULL, NULL),
-(21, 1, 'Css', '', NULL, NULL);
+(21, 1, 'Css', '', NULL, NULL),
+(29, 1, 'VUE', '框架', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -232,9 +251,9 @@ INSERT INTO `h_node_category_language` (`category_id`, `language_id`, `title`, `
 
 CREATE TABLE `h_node_language` (
   `node_id` int(11) NOT NULL,
-  `language_id` int(11) NOT NULL DEFAULT 1,
+  `language_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
+  `content` longtext,
   `meta_keywords` varchar(255) DEFAULT NULL,
   `meta_description` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -244,10 +263,10 @@ CREATE TABLE `h_node_language` (
 --
 
 INSERT INTO `h_node_language` (`node_id`, `language_id`, `title`, `content`, `meta_keywords`, `meta_description`) VALUES
-(1, 1, '中文测试!!!', '<h1>\r\n	通知\r\n</h1>\r\n<p>\r\n	测试\r\n</p>', '测试', ''),
+(1, 1, '中文测试!!!', '<h1>\r\n	通知\r\n</h1>\r\n<p>\r\n	测试</p>', NULL, NULL),
 (5, 1, 'test', '<p>test</p>', NULL, NULL),
-(6, 1, 'test', '<p>test</p>', NULL, NULL),
-(7, 1, 'Hello Page', '<p>This test page</p>', NULL, NULL);
+(7, 1, 'Hello Page', '<p>This test page</p>', NULL, NULL),
+(6, 1, '这是一篇 中文测试tsest', '<p>test</p>', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -257,9 +276,9 @@ INSERT INTO `h_node_language` (`node_id`, `language_id`, `title`, `content`, `me
 
 CREATE TABLE `h_node_meta` (
   `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `node_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `node_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
-  `meta_value` longtext DEFAULT NULL
+  `meta_value` longtext
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
@@ -279,9 +298,9 @@ INSERT INTO `h_node_meta` (`meta_id`, `node_id`, `meta_key`, `meta_value`) VALUE
 --
 
 CREATE TABLE `h_node_relationships` (
-  `node_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-  `category_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-  `term_order` int(9) UNSIGNED DEFAULT 0
+  `node_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `term_order` int(9) UNSIGNED DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -290,7 +309,9 @@ CREATE TABLE `h_node_relationships` (
 
 INSERT INTO `h_node_relationships` (`node_id`, `category_id`, `term_order`) VALUES
 (5, 21, 0),
-(7, 0, 0);
+(7, 0, 0),
+(1, 0, 0),
+(6, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -319,13 +340,13 @@ INSERT INTO `h_options` (`option_group`, `option_name`, `option_value`) VALUES
 ('site', 'icp_number', 'ICP 10000000'),
 ('system', 'admin_language', 'zh_CN'),
 ('system', 'language', 'zh_CN'),
-('site', 'sitename', 'H1CMS'),
+('site', 'sitename', 'GETCMS'),
 ('system', 'theme', 'basic'),
 ('system', 'h1cms_version', 'v1.0.2'),
 ('site', 'maintenance', '0'),
-('site', 'title', 'H1CMS OpenSource CMS'),
+('site', 'title', 'GETCMS OpenSource CMS'),
 ('site', 'meta_keywords', 'OpenSource CMS'),
-('site', 'meta_description', 'H1CMS OpenSource CMS'),
+('site', 'meta_description', 'GETCMS OpenSource CMS'),
 ('upload', 'status', 'enabled'),
 ('upload', 'upload_dir', ''),
 ('upload', 'ext_img', 'jpg,png'),
@@ -341,14 +362,14 @@ INSERT INTO `h_options` (`option_group`, `option_name`, `option_value`) VALUES
 
 CREATE TABLE `h_product` (
   `node_id` bigint(20) UNSIGNED NOT NULL,
-  `author` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `author` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `node_date` int(11) UNSIGNED DEFAULT NULL,
   `node_status` varchar(20) NOT NULL DEFAULT 'publish',
   `comment_status` varchar(20) NOT NULL DEFAULT 'open',
   `node_type` varchar(20) NOT NULL DEFAULT 'node',
   `content_type` varchar(20) DEFAULT 'html',
   `image` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '主图',
-  `comment_count` bigint(20) NOT NULL DEFAULT 0,
+  `comment_count` bigint(20) NOT NULL DEFAULT '0',
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -369,14 +390,14 @@ INSERT INTO `h_product` (`node_id`, `author`, `node_date`, `node_status`, `comme
 CREATE TABLE `h_product_category` (
   `category_id` int(11) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `path` varchar(255) DEFAULT NULL,
-  `level` smallint(5) UNSIGNED DEFAULT 0,
-  `count` int(11) DEFAULT 0,
-  `sort_order` smallint(6) DEFAULT 0,
+  `level` smallint(5) UNSIGNED DEFAULT '0',
+  `count` int(11) DEFAULT '0',
+  `sort_order` smallint(6) DEFAULT '0',
   `created_at` int(11) UNSIGNED DEFAULT NULL,
   `updated_at` int(11) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1
+  `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
@@ -400,8 +421,8 @@ INSERT INTO `h_product_category` (`category_id`, `image`, `parent_id`, `path`, `
 --
 
 CREATE TABLE `h_product_category_language` (
-  `category_id` int(11) NOT NULL DEFAULT 0,
-  `language_id` int(11) NOT NULL DEFAULT 1,
+  `category_id` int(11) NOT NULL DEFAULT '0',
+  `language_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `meta_keywords` varchar(255) DEFAULT NULL,
@@ -432,7 +453,7 @@ CREATE TABLE `h_product_image` (
   `product_image_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `sort_order` smallint(6) DEFAULT 0
+  `sort_order` smallint(6) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -451,9 +472,9 @@ INSERT INTO `h_product_image` (`product_image_id`, `product_id`, `image`, `sort_
 
 CREATE TABLE `h_product_language` (
   `node_id` int(11) NOT NULL,
-  `language_id` int(11) NOT NULL DEFAULT 1,
+  `language_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
+  `content` longtext,
   `meta_keywords` varchar(255) DEFAULT NULL,
   `meta_description` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -473,9 +494,9 @@ INSERT INTO `h_product_language` (`node_id`, `language_id`, `title`, `content`, 
 
 CREATE TABLE `h_product_meta` (
   `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `node_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `node_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
-  `meta_value` longtext DEFAULT NULL
+  `meta_value` longtext
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
@@ -485,9 +506,9 @@ CREATE TABLE `h_product_meta` (
 --
 
 CREATE TABLE `h_product_relationships` (
-  `node_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-  `category_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-  `term_order` int(9) UNSIGNED DEFAULT 0
+  `node_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `term_order` int(9) UNSIGNED DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -523,10 +544,10 @@ INSERT INTO `h_roles` (`id`, `title`, `description`) VALUES
 --
 
 CREATE TABLE `h_role_permissions` (
-  `role_id` int(11) NOT NULL DEFAULT 0,
+  `role_id` int(11) NOT NULL DEFAULT '0',
   `permission` varchar(255) NOT NULL DEFAULT '0',
   `permission_name` varchar(255) DEFAULT NULL,
-  `assign_time` int(11) NOT NULL DEFAULT 0
+  `assign_time` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
@@ -548,13 +569,13 @@ CREATE TABLE `h_users` (
   `email` varchar(128) NOT NULL DEFAULT '',
   `username` varchar(60) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
-  `created_at` int(11) DEFAULT 0,
-  `updated_at` int(11) DEFAULT 0,
-  `status` int(11) NOT NULL DEFAULT 0,
+  `created_at` int(11) DEFAULT '0',
+  `updated_at` int(11) DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
   `display_name` varchar(250) NOT NULL DEFAULT '',
   `avatar` varchar(255) DEFAULT NULL,
   `private_notes` varchar(255) DEFAULT NULL,
-  `lasttime` int(11) DEFAULT 0,
+  `lasttime` int(11) DEFAULT '0',
   `lastip` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -563,7 +584,7 @@ CREATE TABLE `h_users` (
 --
 
 INSERT INTO `h_users` (`id`, `email`, `username`, `password`, `created_at`, `updated_at`, `status`, `display_name`, `avatar`, `private_notes`, `lasttime`, `lastip`) VALUES
-(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Administrator', NULL, NULL, 1568943206, '127.0.0.1'),
+(1, 'support@getssl.cn', 'admin', '$2y$10$hnfZMl19O/PXWxHXvVPr0.htYoVBD8kFkf6OAKlJjQ1neyHviUXj6', 1478521265, 1478521265, 1, 'Administrator', NULL, NULL, 1578278122, '127.0.0.1'),
 (3, '83390286@qq.com', 'hmvc', '$2y$10$5dFoGFfmx19LoJ5rxfx1bOsb7jU8uZoku.ujMu16j2FFusSl4cj3u', 0, 0, 1, 'hmvc', NULL, NULL, 1515419055, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -573,14 +594,14 @@ INSERT INTO `h_users` (`id`, `email`, `username`, `password`, `created_at`, `upd
 --
 
 CREATE TABLE `h_users_profile` (
-  `uid` int(11) NOT NULL DEFAULT 0,
+  `uid` int(11) NOT NULL DEFAULT '0',
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
-  `sex` tinyint(3) DEFAULT 0,
+  `sex` tinyint(3) DEFAULT '0',
   `birthday` date DEFAULT NULL COMMENT 'birthday',
   `company` varchar(255) DEFAULT NULL,
   `job_title` varchar(255) DEFAULT NULL,
-  `about` text DEFAULT NULL,
+  `about` text,
   `office_phone` varchar(255) DEFAULT NULL COMMENT '公司电话',
   `phone` varchar(255) DEFAULT NULL COMMENT '私人电话'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -600,9 +621,9 @@ INSERT INTO `h_users_profile` (`uid`, `first_name`, `last_name`, `sex`, `birthda
 --
 
 CREATE TABLE `h_users_roles` (
-  `uid` int(11) NOT NULL DEFAULT 0,
-  `role_id` int(11) NOT NULL DEFAULT 0,
-  `assign_time` int(11) NOT NULL DEFAULT 0
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `role_id` int(11) NOT NULL DEFAULT '0',
+  `assign_time` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
 --
@@ -648,7 +669,8 @@ ALTER TABLE `h_menu_group`
 ALTER TABLE `h_node`
   ADD PRIMARY KEY (`node_id`),
   ADD KEY `node_author` (`author`),
-  ADD KEY `type_status_date` (`node_type`,`node_status`,`node_date`,`node_id`);
+  ADD KEY `type_status_date` (`node_type`,`node_status`,`node_date`,`node_id`),
+  ADD KEY `nodeslug` (`slug`);
 
 --
 -- 表的索引 `h_node_category`
@@ -777,13 +799,13 @@ ALTER TABLE `h_logs`
 -- 使用表AUTO_INCREMENT `h_menu`
 --
 ALTER TABLE `h_menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- 使用表AUTO_INCREMENT `h_menu_group`
 --
 ALTER TABLE `h_menu_group`
-  MODIFY `menu_group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `menu_group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用表AUTO_INCREMENT `h_node`
@@ -795,7 +817,7 @@ ALTER TABLE `h_node`
 -- 使用表AUTO_INCREMENT `h_node_category`
 --
 ALTER TABLE `h_node_category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- 使用表AUTO_INCREMENT `h_node_meta`
